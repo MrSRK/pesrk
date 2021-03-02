@@ -22,6 +22,14 @@ const Security=require('../src/core/security.core')
 const Sass=require('../src/core/sass.core')
 const Storage=require('../src/core/storage.core')
 
+
+var Mockgoose = require('mockgoose').Mockgoose;
+var mockgoose = new Mockgoose(mongoose);
+
+mockgoose.prepareStorage().then(function() {
+	// mongoose connection		
+});
+
 const app=express()
 
 describe('Core Objects Test',_=>

@@ -1,12 +1,21 @@
 "use strict"
 const chai=require('chai')
 const chaiHttp=require('chai-http')
+
+
 const mongoose=require('mongoose')
 const express=require('express')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 const dotenv=require('dotenv')
 const ModuleFactory=require('../src/factory/module.factory')
+
+var Mockgoose = require('mockgoose').Mockgoose;
+var mockgoose = new Mockgoose(mongoose);
+
+mockgoose.prepareStorage().then(function() {
+	// mongoose connection		
+});
 
 chai.use(chaiHttp)
 const expect=chai.expect

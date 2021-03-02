@@ -16,6 +16,14 @@ const app=express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
+
+var Mockgoose = require('mockgoose').Mockgoose;
+var mockgoose = new Mockgoose(mongoose);
+
+mockgoose.prepareStorage().then(function() {
+	// mongoose connection		
+});
+
 describe('Router Factory Unit Test',_=>
 {
     let model
