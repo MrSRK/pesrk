@@ -19,6 +19,11 @@ const Database=class
 			this.error=error
 		}
 	}
+	hook=app=>
+	{
+		// Nothing to hook
+		return this
+	}
 	after=next=>
 	{
 		if(!this.error)
