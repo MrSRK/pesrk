@@ -42,7 +42,7 @@ describe('Module Factory Unit Test',_=>
     module
     .createModel(model=>
     {
-        it('Model creation',done=>
+        it("Module's Model creation",done=>
         {
             expect(model).to.be.an('object')
             done()
@@ -51,7 +51,7 @@ describe('Module Factory Unit Test',_=>
     })
     .createController(controller=>
     {
-        it('Controller creation',done=>
+        it("Module's Controller creation",done=>
         {
             expect(controller).to.be.an('object')
             done()
@@ -60,7 +60,7 @@ describe('Module Factory Unit Test',_=>
     })
     .createRouter(router=>
     {
-        it('Route creation',done=>
+        it("Module's Route creation",done=>
         {
             expect(router).to.be.an('object')
             done()
@@ -75,7 +75,6 @@ describe('Module Factory Unit Test',_=>
             done()
         })
         // Add Express router Extensions
-        app.use(router)
     })
     .catch(error=>
     {
@@ -83,7 +82,15 @@ describe('Module Factory Unit Test',_=>
         {
             done(error)
         })
-        console.log('We Have Error')
-        console.log(error)
+    })
+    it("Hook Module to application",done=>
+    {
+        module
+        .hook(app)
+        .catch(error=>
+        {
+            one(error)
+        })
+        done()
     })
 })

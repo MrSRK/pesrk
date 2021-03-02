@@ -128,6 +128,18 @@ const moduleFactory=class
         }
         return this
     }
+    hook=app=>
+    {
+        try
+        {
+            app.use(this.router.getRouter())
+            return this
+        }
+        catch(error)
+        {
+            this.masterError=error
+        }
+    }
     catch=next=>
     {
         if(this.masterError)
