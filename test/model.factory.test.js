@@ -6,13 +6,6 @@ const dotenv=require('dotenv')
 const ModelFactory=require('../src/factory/model.factory')
 const expect=chai.expect
 
-var Mockgoose = require('mockgoose').Mockgoose;
-var mockgoose = new Mockgoose(mongoose);
-
-mockgoose.prepareStorage().then(function() {
-	// mongoose connection		
-});
-
 
 describe('Model Factory Unit Test',_=>
 {
