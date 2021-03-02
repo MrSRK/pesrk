@@ -1,4 +1,3 @@
-
 "use strict"
 /**
  * constroller's Behaviours Get
