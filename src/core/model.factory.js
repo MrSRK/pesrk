@@ -1,3 +1,4 @@
+"use strict"
 /**
  * Model's Behaviours Find
  * @description Επιστρέφει εγγραφές από την βάση δεδομένων συμφώνα με τα ζητούμενα.
@@ -179,16 +180,7 @@ const remover=state=>
 		findByIdAndRemove:model_findByIdAndRemove.bind(null,state)
 	}
 }
-/**
- * Model Factory
- * @description Δημιουργεί ένα Μongoose Model και ορίζει to Behavior του
- * @param {object} dependencies 
- * @param {object} structure 
- * @param {object} behaviours
- * @param {string} moduleName
- * @returns Model
- */
-const modelFactory=(dependencies,structure,behaviours,moduleName)=>
+const createMongoosemodel=(dependencies,structure,moduleName)=>
 {
 	const mongoose=dependencies.mongoose
 	const bcrypt=dependencies.bcrypt
@@ -224,18 +216,30 @@ const modelFactory=(dependencies,structure,behaviours,moduleName)=>
 			return next(error)
 		})
 	})
-	let model=mongoose.model(moduleName,schema)
-	state={
-		model:model,
-		mongoose:mongoose
+	return mongoose.model(moduleName,schema)
+}
+/**
+ * Model Factory Constructor
+ * @description Δημιουργεί ένα Μongoose Model και ορίζει to Behavior του
+ * @param {object} dependencies 
+ * @param {object} structure 
+ * @param {object} behaviours
+ * @param {string} moduleName
+*/
+const modelFactory=class
+{
+	constructor(dependencies,structure,behaviours,moduleName)
+	{
+		const state={
+			model:createMongoosemodel(dependencies,structure,moduleName),
+			mongoose:dependencies.mongoose
+		}
+		if(behaviours.getter)
+			Object.assign(this,getter(state))
+		if(behaviours.setter)
+			Object.assign(this,setter(state))
+		if(behaviours.remover)
+			Object.assign(this,remover(state))
 	}
-	let behaviour={}
-	if(behaviours.getter)
-		Object.assign(behaviour,getter(state))
-	if(behaviours.setter)
-		Object.assign(behaviour,setter(state))
-	if(behaviours.remover)
-		Object.assign(behaviour,remover(state))
-	return behaviour
 }
 module.exports=modelFactory

@@ -1,8 +1,9 @@
+"use strict"
 const chai=require('chai')
 const mongoose=require('mongoose')
 const bcrypt=require('bcrypt')
 const dotenv=require('dotenv')
-const modelFactory=require('../src/core/model.factory')
+const ModelFactory=require('../src/core/model.factory')
 const expect=chai.expect
 
 describe('Model Factory Unit Test',_=>
@@ -34,7 +35,7 @@ describe('Model Factory Unit Test',_=>
      */
     it('Test model Object',done=>
     {
-        model=modelFactory({
+        model=new ModelFactory({
             mongoose:mongoose,
             bcrypt:bcrypt,
         },

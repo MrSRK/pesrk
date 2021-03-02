@@ -1,3 +1,4 @@
+"use strict"
 const chai=require('chai')
 const chaiHttp=require('chai-http')
 const mongoose=require('mongoose')
@@ -5,12 +6,12 @@ const express=require('express')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 const dotenv=require('dotenv')
-const modelFactory=require('../src/core/model.factory')
-const controllerFactory=require('../src/core/controller.factory')
+const ModelFactory=require('../src/core/model.factory')
+const ControllerFactory=require('../src/core/controller.factory')
 
 chai.use(chaiHttp)
 const expect=chai.expect
-app=express()
+const app=express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
@@ -43,7 +44,7 @@ describe('Controller Factory Unit Test',_=>
      */
     before(done=>
     {
-        model=modelFactory({
+        model=new ModelFactory({
             mongoose:mongoose,
             bcrypt:bcrypt,
         },
@@ -64,7 +65,7 @@ describe('Controller Factory Unit Test',_=>
      */
     it('Test Controller Object',done=>
     {
-        controller=controllerFactory({
+        controller=new ControllerFactory({
             model:model,
             bcrypt:bcrypt,
             jwt:jwt
@@ -84,7 +85,6 @@ describe('Controller Factory Unit Test',_=>
      */
     it('Test function controller.put.raw()',done=>
     {
-        
         controller.put.raw({
             name:'Stelios',
             username:'test@controller.com',
@@ -93,6 +93,7 @@ describe('Controller Factory Unit Test',_=>
         .then(doc=>
         {
             expect(doc).to.be.a('object')
+            expect(doc)
             _id=doc._id
             done()
         })
@@ -149,6 +150,38 @@ describe('Controller Factory Unit Test',_=>
             done(error)  
         })
     })
+    /**
+     * Test controller's function login.raw
+     */
+    it('Test function controller.login.raw()',done=>
+    {
+        controller.login.raw('test@controller.com','123')
+        .then(doc=>
+        {
+            expect(doc).to.be.a('object')
+            done()
+        })
+        .catch(error=>
+        {
+            done(error)  
+        })
+    })
+    /**
+     * Test controller's function signIn.raw
+     */
+    it('Test function controller.signIn.raw()',done=>
+    {
+        controller.signIn.raw('test@controller.com','123')
+        .then(doc=>
+        {
+            expect(doc).to.be.a('object')
+            done()
+        })
+        .catch(error=>
+        {
+            done(error)  
+        })
+    })
      /**
      * Test controller's function delete.raw (remove a row by id/ return deleted row/ all columns except password)
      */
@@ -178,7 +211,7 @@ describe('Controller Factory Unit Test',_=>
         .then(resp=>
         {
             expect(resp).to.have.status(200)
-            doc=JSON.parse(resp.text)
+            const doc=JSON.parse(resp.text)
             expect(doc).to.be.a('object')
             _id=doc._id
             done()
@@ -199,7 +232,7 @@ describe('Controller Factory Unit Test',_=>
         .then(resp=>
         {
             expect(resp).to.have.status(200)
-            doc=JSON.parse(resp.text)
+            const doc=JSON.parse(resp.text)
             expect(doc).to.be.a('array')
             done()
         })
@@ -219,7 +252,7 @@ describe('Controller Factory Unit Test',_=>
         .then(resp=>
         {
             expect(resp).to.have.status(200)
-            doc=JSON.parse(resp.text)
+            const doc=JSON.parse(resp.text)
             expect(doc).to.be.a('object')
             done()
         })
@@ -240,8 +273,56 @@ describe('Controller Factory Unit Test',_=>
         .then(resp=>
         {
             expect(resp).to.have.status(200)
-            doc=JSON.parse(resp.text)
+            const doc=JSON.parse(resp.text)
             expect(doc).to.be.a('object')
+            done()
+        })
+        .catch(error=>
+        {
+            done(error)
+        })
+    })
+    /**
+     * Test controller's function login.api
+     */
+    it('Test function controller.login.api()',done=>
+    {
+        
+        app.post('/api/test/login',controller.login.api)
+        chai.request(app)
+        .post('/api/test/login')
+        .send({username:'roubes6@hotmail.comBBB',password:'123'})
+        .then(resp=>
+        {
+            expect(resp).to.have.status(200)
+            const doc=JSON.parse(resp.text)
+            expect(doc).to.be.a('object')
+            expect(doc).to.have.keys('utoken','_id','user')
+            expect(doc.utoken).to.be.not.a('null')
+            done()
+        })
+        .catch(error=>
+        {
+            done(error)
+        })
+    })
+    /**
+     * Test controller's function signIn.api
+     */
+    it('Test function controller.signIn.api()',done=>
+    {
+        
+        app.post('/api/test/signIn',controller.signIn.api)
+        chai.request(app)
+        .post('/api/test/signIn')
+        .send({username:'roubes6@hotmail.comBBB',password:'123'})
+        .then(resp=>
+        {
+            expect(resp).to.have.status(200)
+            const doc=JSON.parse(resp.text)
+            expect(doc).to.be.a('object')
+            expect(doc).to.have.keys('token','_id','user')
+            expect(doc.utoken).to.be.not.a('null')
             done()
         })
         .catch(error=>
@@ -261,7 +342,7 @@ describe('Controller Factory Unit Test',_=>
         .then(resp=>
         {
             expect(resp).to.have.status(200)
-            doc=JSON.parse(resp.text)
+            const doc=JSON.parse(resp.text)
             expect(doc).to.be.a('object')
             done()
         })
@@ -270,4 +351,10 @@ describe('Controller Factory Unit Test',_=>
             done(error)
         })
     })
+
+
+    
+
+
+
 })

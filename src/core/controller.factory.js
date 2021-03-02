@@ -1,4 +1,5 @@
 
+"use strict"
 /**
  * constroller's Behaviours Get
  * @description Επιστρέφει τις εγγραφές από το model συμφώνα με τα ζητούμενα.
@@ -136,7 +137,7 @@ const controller_login=(state,username,password)=>
     return new Promise((resolve,reject)=>
 	{ 
         const where={
-            useranme:username
+            username:username
         }
         return model
         .find(where)
@@ -300,11 +301,11 @@ const controller_api_login=(state,req,res)=>
 
     const JWT_SECRET=(process.env.JWT_SECRET||'{password}')+'{Administrator}'
     const JWT_EXP=process.env.JWT_EXP||'1h'
-    return controller_login(state,useranme,password)
+    return controller_login(state,username,password)
     .then(user=>
     {
         const token=jwt.sign({_id:user._id},JWT_SECRET,{expiresIn:JWT_EXP})
-        return controller_api_res(null,{
+        return controller_api_res(res,null,{
             _id:user._id,
             user:user.name,
             utoken:token
@@ -312,6 +313,7 @@ const controller_api_login=(state,req,res)=>
     })
     .catch(error=>
     {
+        console.log(error)
         return controller_api_res(res,error)
     })
 }
@@ -331,11 +333,11 @@ const controller_api_signIn=(state,req,res)=>
 
     const JWT_SECRET=(process.env.JWT_SECRET||'{password}')
     const JWT_EXP=process.env.JWT_EXP||'1h'
-    return controller_login(state,useranme,password)
+    return controller_login(state,username,password)
     .then(user=>
     {
         const token=jwt.sign({_id:user._id},JWT_SECRET,{expiresIn:JWT_EXP})
-        return controller_api_res(null,{
+        return controller_api_res(res,null,{
             _id:user._id,
             user:user.name,
             token:token
@@ -440,28 +442,26 @@ const user=state=>
  * @param {object} behaviours
  * @returns Controller
  */
-const controllerFactory=(dependencies,behaviours)=>
+const controllerFactory=class
 {
-    const model=dependencies.model
-    const bcrypt=dependencies.bcrypt
-    const jwt=dependencies.bcrypt
-    state=
+    constructor(dependencies,behaviours)
     {
-        model:model,
-        bcrypt:bcrypt,
-        jwt:jwt
+        const state=
+        {
+            model:dependencies.model,
+            bcrypt:dependencies.bcrypt,
+            jwt:dependencies.jwt
+        }
+        if(behaviours.getter)
+            Object.assign(this,getter(state))
+        if(behaviours.setter)
+            Object.assign(this,setter(state))
+        if(behaviours.remover)
+            Object.assign(this,remover(state))
+        if(behaviours.user)
+            Object.assign(this,user(state))
+        if(behaviours.administrator)
+            Object.assign(this,administrator(state))
     }
-	let behaviour={}
-	if(behaviours.getter)
-		Object.assign(behaviour,getter(state))
-	if(behaviours.setter)
-		Object.assign(behaviour,setter(state))
-	if(behaviours.remover)
-		Object.assign(behaviour,remover(state))
-    if(behaviours.user)
-		Object.assign(behaviour,user(state))
-    if(behaviours.administrator)
-		Object.assign(behaviour,administrator(state))
-	return behaviour
 } 
 module.exports=controllerFactory
