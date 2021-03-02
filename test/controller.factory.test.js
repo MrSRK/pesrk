@@ -66,7 +66,6 @@ describe('Controller Factory Unit Test',_=>
     it('Test Controller Object',done=>
     {
         controller=new ControllerFactory({
-            model:model,
             bcrypt:bcrypt,
             jwt:jwt
         },
@@ -76,7 +75,8 @@ describe('Controller Factory Unit Test',_=>
             remover:true,
             user:true,
             administrator:true
-        })
+        },
+        model)
         expect(controller).to.be.an("object");
         done()
     })

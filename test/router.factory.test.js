@@ -9,7 +9,6 @@ const dotenv=require('dotenv')
 const ModelFactory=require('../src/core/model.factory')
 const ControllerFactory=require('../src/core/controller.factory')
 const RouterFactory=require('../src/core/router.factory')
-const { Router } = require('express')
 
 chai.use(chaiHttp)
 const expect=chai.expect
@@ -69,7 +68,6 @@ describe('Router Factory Unit Test',_=>
     before('Test Controller Object',done=>
     {
         controller=new ControllerFactory({
-            model:model,
             bcrypt:bcrypt,
             jwt:jwt
         },
@@ -79,13 +77,13 @@ describe('Router Factory Unit Test',_=>
             remover:true,
             user:true,
             administrator:true
-        })
+        },
+        model)
         done()
     })
     it('Test Router Object',done=>
     {
         const route=new RouterFactory({
-            controller:controller,
             express:express
         },
         {
@@ -94,7 +92,9 @@ describe('Router Factory Unit Test',_=>
             remover:true,
             user:true,
             administrator:true
-        },'testModuleRouter')
+        },
+        'testModuleRouter',
+        controller)
         router=route.getRouter()
         app.use(router)
         expect(controller).to.be.an("object");

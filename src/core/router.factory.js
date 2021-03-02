@@ -126,12 +126,12 @@ const user=state=>
 }
 const routerFactory=class
 {
-    constructor(dependencies,behaviours,moduleName)
+    constructor(dependencies,behaviours,moduleName,controller)
     {
         this.router=dependencies.express.Router()
         const state=
         {
-            controller:dependencies.controller,
+            controller:controller,
             moduleName:moduleName
         }
         if(behaviours.user)

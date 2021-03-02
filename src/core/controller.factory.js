@@ -443,11 +443,11 @@ const user=state=>
  */
 const controllerFactory=class
 {
-    constructor(dependencies,behaviours)
+    constructor(dependencies,behaviours,model)
     {
         const state=
         {
-            model:dependencies.model,
+            model:model,
             bcrypt:dependencies.bcrypt,
             jwt:dependencies.jwt
         }
