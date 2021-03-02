@@ -440,7 +440,7 @@ const user=state=>
  * @description Δημιουργεί ένα Controller και ορίζει to Behavior του
  * @param {object} dependencies 
  * @param {object} behaviours
- * @returns Controller 
+ * @returns Controller
  */
 const controllerFactory=class
 {
