@@ -48,7 +48,7 @@ const routerFactory=(dependencies,behaviours,moduleName)=>
 }
 const moduleFactory=class
 {
-    masterError=null
+    error=null
     constructor(dependencies,structure,behaviours,moduleName)
     {
         try
@@ -66,21 +66,21 @@ const moduleFactory=class
         }
         catch(error)
         {
-            this.masterError=error
+            this.error=error
         }
     }
     createModel=next=>
     {
         try
         {
-            if(this.masterError)
+            if(this.error)
                 throw   masterError
             this.model=this.modelFactory()
             next(this.model)
         }
         catch(error)
         {
-            this.masterError=error
+            this.error=error
         }
         return this
     }
@@ -88,14 +88,14 @@ const moduleFactory=class
     {
         try
         {
-            if(this.masterError)
-                throw this.masterError
+            if(this.error)
+                throw this.error
             this.controller=this.controllerFactory(this.model)
             next(this.controller)
         }
         catch(error)
         {
-            this.masterError=error
+            this.error=error
         }
         return this
     }
@@ -103,14 +103,14 @@ const moduleFactory=class
     {
         try
         {
-            if(this.masterError)
-                throw this.masterError
+            if(this.error)
+                throw this.error
             this.router=this.routerFactory(this.controller)
             next(this.router)
         }
         catch(error)
         {
-            this.masterError=error
+            this.error=error
         }
         return this
     }
@@ -118,13 +118,13 @@ const moduleFactory=class
     {
         try
         {
-            if(this.masterError)
-                throw this.masterError
+            if(this.error)
+                throw this.error
             next(this.router.getRouter())
         }
         catch(error)
         {
-            this.masterError=error
+            this.error=error
         }
         return this
     }
@@ -137,13 +137,13 @@ const moduleFactory=class
         }
         catch(error)
         {
-            this.masterError=error
+            this.error=error
         }
     }
     catch=next=>
     {
-        if(this.masterError)
-            return next(this.masterError)
+        if(this.error)
+            return next(this.error)
         return true
     }
 }
