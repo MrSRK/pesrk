@@ -6,7 +6,7 @@ const express=require('express')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 const dotenv=require('dotenv')
-const ModuleFactory=require('../src/core/module.factory')
+const ModuleFactory=require('../src/factory/module.factory')
 
 chai.use(chaiHttp)
 const expect=chai.expect

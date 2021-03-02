@@ -6,9 +6,9 @@ const express=require('express')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 const dotenv=require('dotenv')
-const ModelFactory=require('../src/core/model.factory')
-const ControllerFactory=require('../src/core/controller.factory')
-const RouterFactory=require('../src/core/router.factory')
+const ModelFactory=require('../src/factory/model.factory')
+const ControllerFactory=require('../src/factory/controller.factory')
+const RouterFactory=require('../src/factory/router.factory')
 
 chai.use(chaiHttp)
 const expect=chai.expect

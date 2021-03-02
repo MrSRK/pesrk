@@ -3,7 +3,7 @@ const chai=require('chai')
 const mongoose=require('mongoose')
 const bcrypt=require('bcrypt')
 const dotenv=require('dotenv')
-const ModelFactory=require('../src/core/model.factory')
+const ModelFactory=require('../src/factory/model.factory')
 const expect=chai.expect
 
 describe('Model Factory Unit Test',_=>
