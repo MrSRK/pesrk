@@ -31,7 +31,8 @@
     "mocha": "^8.3.0"
   },
   "scripts": {
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "run":"node app"
   },
   "repository": {
     "type": "git",
@@ -46,5 +47,8 @@
   "bugs": {
     "url": "https://github.com/MrSRK/pesrk/issues"
   },
-  "homepage": "https://github.com/MrSRK/pesrk#readme"
+  "homepage": "https://github.com/MrSRK/pesrk#readme",
+  "directories": {
+    "test": "test"
+  }
 }
