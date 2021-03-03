@@ -6,8 +6,16 @@ const express=require('express')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 const dotenv=require('dotenv')
+
+const fs=require('fs')
+const path=require('path')
+const multer=require('multer')
+
 const ModelFactory=require('../src/factory/model.factory')
 const ControllerFactory=require('../src/factory/controller.factory')
+
+const Storage=require('../src/core/storage.core')
+
 
 chai.use(chaiHttp)
 const expect=chai.expect
@@ -17,6 +25,10 @@ app.use(express.urlencoded({extended:true}))
 
 describe('Controller Factory Unit Test',_=>
 {
+
+    const storage=new Storage({multer:multer,path:path,fs:fs}).catch(error=>{throw error})
+    const upload=storage.getUpload()
+
     let model
     let controller
     let _id
@@ -68,6 +80,9 @@ describe('Controller Factory Unit Test',_=>
         controller=new ControllerFactory({
             bcrypt:bcrypt,
             jwt:jwt
+        },
+        {
+            upload:upload
         },
         {
             getter:true,

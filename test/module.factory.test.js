@@ -16,13 +16,27 @@ const app=express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
+
+const Storage=require('../src/core/storage.core')
+const fs=require('fs')
+const path=require('path')
+const multer=require('multer')
+
+
 describe('Module Factory Unit Test',_=>
 {
+
+    const storage=new Storage({multer:multer,path:path,fs:fs}).catch(error=>{throw error})
+    const upload=storage.getUpload()
+
     let module=new ModuleFactory({
         mongoose:mongoose,
         bcrypt:bcrypt,
         jwt:jwt,
         express:express
+    },
+    {
+        upload:upload
     },
     {
         name:{type:String},

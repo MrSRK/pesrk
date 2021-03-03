@@ -10,6 +10,13 @@ const ModelFactory=require('../src/factory/model.factory')
 const ControllerFactory=require('../src/factory/controller.factory')
 const RouterFactory=require('../src/factory/router.factory')
 
+
+const Storage=require('../src/core/storage.core')
+const fs=require('fs')
+const path=require('path')
+const multer=require('multer')
+
+
 chai.use(chaiHttp)
 const expect=chai.expect
 const app=express()
@@ -18,6 +25,10 @@ app.use(express.urlencoded({extended:true}))
 
 describe('Router Factory Unit Test',_=>
 {
+
+    const storage=new Storage({multer:multer,path:path,fs:fs}).catch(error=>{throw error})
+    const upload=storage.getUpload()
+    
     let model
     let controller
     let router
@@ -72,6 +83,9 @@ describe('Router Factory Unit Test',_=>
             jwt:jwt
         },
         {
+            upload:upload
+        },
+        {
             getter:true,
             setter:true,
             remover:true,
@@ -85,6 +99,9 @@ describe('Router Factory Unit Test',_=>
     {
         const route=new RouterFactory({
             express:express
+        },
+        {
+            upload:upload
         },
         {
             getter:true,
