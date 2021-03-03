@@ -7,3 +7,18 @@ notifications:
   email:  false
 services:
   - mongodb
+env:
+  -  MONGO_URI=mongodb://localhost:27017/test
+  -  JWT_SECRET=<password>
+  -  JWT_EXP=1d
+  -  BCRYPT_SALT=10
+  -  COOKIE_AGE=604800000
+  -  COOKIE_SECRET=<password>
+  -  NODE_ENV=prodaction
+  -  NODE_LOG_PATH=log/
+  -  NODE_LOG_INTERVAL=1d
+  -  SASS_SRC=public/
+  -  SASS_DEST=public/
+  -  SASS_MAXAGE=3888000
+  -  EXRESS_PORT=8080
+  -  MULTER_UPLOAD=public/upload
