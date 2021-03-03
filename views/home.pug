@@ -1,1 +1,42 @@
-h1 HOME PAGE
+extends layout
+
+block content
+	.mt-3.container
+		h1.h6 Καλωσορίσατε στο «Καλλιόπη». 
+		p.d-none.d-lg-block.small.text-muted Σε αυτόν τον δικτυακό τόπο μπορείτε να καταχωρίστε και να βρείτε πληροφορίες για προϊόντα και προμηθευτές που σας ενδιαφέρουν.
+		picture
+			img.w-100(src="/images/banner.png")
+	.mt-1.text-center
+		p.small.font-weight-bold.d-none.d-md-block Θέλετε να βρείτε κάποιο προϊόν για αγορά «Προσφορά» ή ενδιαφέρεστε να βρείτε αγοραστές για τα προϊόντα σας «Ζήτηση»
+		.row
+			.col-6
+				p 
+					a.btn.btn-lg.btn-primary(href="/product/offer")
+						i.fas.fa-search.pl-5.pr-3.d-none.d-lg-inline
+						span.pr-lg-5 Προσφορά
+				p 
+					small.text-muted Ψάχνω για προϊόντα
+			.col-6
+				p
+					a.btn.btn-lg.btn-primary(href="/product/demand")
+						i.fas.fa-search.pl-5.pr-3.d-none.d-lg-inline
+						span.pr-lg-5 Ζήτηση
+				p
+					small.text-muted Ψάχνω αγοραστές για τα προϊόντα μου
+			.col-12.mt-5
+				p.small Κάνε εγγραφή στο «Καλλιόπη» για να μπορείς να κάνεις και εσύ τις δικές σου καταχωρίσεις εντελώς δωρεάν!
+					span.mt-3.d-block.d-lg-inline
+						a.btn.btn-sm.btn-primary.mx-2(href="/user/signIn")
+							span Είσοδος
+						a.btn.btn-sm.btn-primary.mx-2(href="/user/signUp")
+							span Εγγραφή
+		.row.mt-5 
+			.col-12.col-lg-4
+				h5.text-primary.font-weight-bold Χρήστες
+				p.display-2.font-weight-normal.text-muted(data-ng-bind="ux.counter1",data-ng-init="ux.counter('counter1',167)") 0
+			.col-12.col-lg-4
+				h5.text-primary.font-weight-bold  Προσφορές
+				p.display-2.font-weight-normal.text-muted(data-ng-bind="ux.counter2",data-ng-init="ux.counter('counter2',1654)") 0
+			.col-12.col-lg-4
+				h5.text-primary.font-weight-bold  Ζητήσεις
+				p.display-2.font-weight-normal.text-muted(data-ng-bind="ux.counter3",data-ng-init="ux.counter('counter3',394)") 0

@@ -8,8 +8,8 @@ const Sass=class
 		{
 			this.sass=dependencies.sassMiddleware({
 				outputStyle:'compressed',
-				src:dependencies.path.join(__dirname,'../../'+(process.env.SASS_SRC||'public/css')),
-				dest:dependencies.path.join(__dirname,'../../'+(process.env.SASS_DEST||'public/css')),
+				src:dependencies.path.join(__dirname,'../../'+(process.env.SASS_SRC||'public/')),
+				dest:dependencies.path.join(__dirname,'../../'+(process.env.SASS_DEST||'public/')),
 				maxAge:parseInt(process.env.SASS_MAXAGE)||3888000,
 			})
 		}

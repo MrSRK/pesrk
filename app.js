@@ -48,6 +48,19 @@ new Sass({sassMiddleware:sassMiddleware,path:path}).hook(app).catch(error=>{thro
 const storage=new Storage({multer:multer,path:path,fs:fs}).catch(error=>{throw error})
 const upload=storage.getUpload()
 
+app.use('/css',express.static(path.join(__dirname,'public/css'),{maxAge:31557600000}))
+app.use('/js',express.static(path.join(__dirname,'public/css'),{maxAge:31557600000}))
+app.use('/images',express.static(path.join(__dirname,'public/images'),{maxAge:31557600000}))
+app.use('/static',express.static(path.join(__dirname,'public/upload'),{maxAge:31557600000}))
+app.use('/js', express.static(path.join(__dirname,'node_modules/popper.js/dist/umd'),{maxAge:31557600000}))
+app.use('/js', express.static(path.join(__dirname,'node_modules/bootstrap/dist/js'),{maxAge:31557600000}))
+app.use('/js', express.static(path.join(__dirname,'node_modules/jquery/dist'),{maxAge:31557600000}))
+app.use('/webfonts', express.static(path.join(__dirname,'node_modules/@fortawesome/fontawesome-free/webfonts'),{maxAge:31557600000}))
+app.use('/css',express.static(path.join(__dirname,'/node_modules/bootstrap/dist/scss'),{maxAge:31557600000}))
+app.use('/js',express.static(path.join(__dirname,'/node_modules/bootstrap/dist/js'),{maxAge:31557600000}))
+app.use('/js',express.static(path.join(__dirname,'/node_modules/angular'),{maxAge:31557600000}))
+
+
 new ModuleLoader(app,{
     mongoose:mongoose,
     bcrypt:bcrypt,
@@ -65,13 +78,11 @@ app.listen(process.env.EXRESS_PORT)
 
 
 /**
- * @todo    na ftiaksw ta toolbox na pernaei o multer ston controller
- * @todo    na ftiaksw to image upload to controller
- * @todo    na ftiaksw ton image controller
- * @todo    na ftiaksw ta static routes
- * @todo    na ftiaksw to auth to router
- * @todo    na grapsw to template
+ * 
+ * @todo    na ftiaksw ta modules
  * @todo    na grapsw ta termatika pug
  * @todo    na grasw ta public js... UX
  * @todo    testing testing testing
+ * 
+ * 
  */

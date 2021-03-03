@@ -1,0 +1,20 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+	a.navbar-brand(href='/') Καλλιόπη
+	button.navbar-toggler(type='button' data-toggle='collapse' data-target='#mainNav' aria-controls='mainNav' aria-expanded='false' aria-label='Toggle navigation')
+		span.navbar-toggler-icon
+	#mainNav.collapse.navbar-collapse
+		ul.navbar-nav.mr-auto
+			li.nav-item.active
+				a.nav-link(href='/',title="Αρχική Σελίδα") Αρχική 
+			li.nav-item
+				a.nav-link(href='/product/offer',title="Προσφορά") Προσφορά
+			li.nav-item
+				a.nav-link(href='/product/demand',title="Ζήτηση") Ζήτηση
+			li.nav-item
+		a.nav-link.d-none(href='/user/signUp',data-ng-class="ux.isSignIn()?'':'d-inline'") Εγγραφή
+		a.nav-link.d-none(href='/user/signIn',data-ng-class="ux.isSignIn()?'':'d-inline'") Είσοδος
+		a.nav-link.d-none(href='/signOut',data-ng-class="ux.isSignIn()?'d-inline':''") Έξοδος
+		
+		form.form-inline.my-2.my-lg-0
+			input.form-control.mr-sm-2(type='search' placeholder='Αναζήτηση' aria-label='Αναζήτηση')
+			button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Αναζήτηση
