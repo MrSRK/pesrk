@@ -31,8 +31,7 @@
     "mocha": "^8.3.0"
   },
   "scripts": {
-    "test": "
-    "
+    "test": "mocha --exit"
   },
   "repository": {
     "type": "git",
