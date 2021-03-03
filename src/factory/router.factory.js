@@ -64,8 +64,8 @@ const setter=state=>
     return {
         hook:router=>
         {
-            router.put(`/api/${moduleName}/`,controller.put.api)
-            router.patch(`/api/${moduleName}/:_id`,controller.patch.api)
+            router.put(`/api/${moduleName}/`,controller.auth.header,controller.put.api)
+            router.patch(`/api/${moduleName}/:_id`,controller.auth.header,controller.patch.api)
         }
     }
 }
@@ -109,7 +109,7 @@ const user=state=>
     return {
         hook:router=>
         {
-            router.post(`/api/${moduleName}/login`,controller.signIn.api)
+            router.post(`/api/${moduleName}/signIn`,controller.signIn.api)
             router.get(`/${moduleName}/signIn`,(req,res)=>
             {
                 return res.render('signIn',{

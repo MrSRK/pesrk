@@ -9,7 +9,8 @@ const modelFactory=(dependencies,structure,behaviours,moduleName)=>
     {
         return new ModelFactory(
             {
-                mongoose:dependencies.mongoose
+                mongoose:dependencies.mongoose,
+                bcrypt:dependencies.bcrypt
             },
             structure,
             behaviours,
@@ -55,7 +56,7 @@ const moduleFactory=class
         {
             const state=
             {
-                crypt:dependencies.bcrypt,
+                bcrypt:dependencies.bcrypt,
                 jwt:dependencies.jwt,
                 mongoose:dependencies.mongoose,
                 express:dependencies.express

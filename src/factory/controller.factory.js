@@ -164,6 +164,50 @@ const controller_login=(state,username,password)=>
     })
 }
 /**
+ * Controller authorization function
+ * @param {object} state 
+ * @param {string} type 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ */
+const controller_api_auth=(state,type,req,res,next)=>
+{
+    try
+    {
+        let authorization=null
+        let token=null
+        const JWT_SECRET=(process.env.JWT_SECRET||'{password}')+'{Administrator}'
+        if(type=='header')
+        {
+            authorization=req.headers.authorization
+            if(!authorization)
+                return controller_api_auth_error(req,res)
+            token=authorization.split(" ")[1]
+        }
+        else if(type=='body')
+            token=req.body.utoken
+        else
+            return controller_api_auth_error(req,res)
+        if(!token||token=='')
+            return controller_api_auth_error(req,res)
+        return state.jwt.verify(token,JWT_SECRET,(error,deco)=>
+        {
+            if(error)
+                return controller_api_auth_error(req,res)
+            return next()
+        })
+    }
+    catch(error)
+    {
+        return controller_api_auth_error(req,res)
+    }
+}
+const controller_api_auth_error=(req,res)=>
+{
+    return res.status(401).json({status:false,messsage:"Unauthorized Access"})
+}
+/**
  * Controller API Responce
  * @description Τυποποίησης των JSON εξόδου του Express για όλα τα response του API
  * @param {Object} res - Express's response Object
@@ -195,7 +239,6 @@ const controller_api_get=(state,req,res)=>
     })
     .catch(error=>
     {
-        console.log(error)
         return controller_api_res(500,res,error)
     })
 }
@@ -312,7 +355,7 @@ const controller_api_login=(state,req,res)=>
     })
     .catch(error=>
     {
-        return controller_api_res(res,error,null,401)
+        return controller_api_res(401,res,error,null,401)
     })
 }
 /**
@@ -434,6 +477,21 @@ const user=state=>
 	}
 }
 /**
+ * Controller's authorization  Behaviours
+ * @description Ορισμός των συμπροφορών (δικαιωμάτων) για την ομάδα users.
+ * @param {object} state
+ */
+const auth_mannager=state=>
+{
+    return {
+        auth:
+        {
+            header:controller_api_auth.bind(null,state,'header'), 
+            body:controller_api_auth.bind(null,state,'body')
+        } 
+	}
+}
+/**
  * Controller Factory
  * @description Δημιουργεί ένα Controller και ορίζει to Behavior του
  * @param {object} dependencies 
@@ -460,6 +518,7 @@ const controllerFactory=class
             Object.assign(this,setter(state))
         if(behaviours.remover)
             Object.assign(this,remover(state))
+       Object.assign(this,auth_mannager(state))     
     }
 } 
 module.exports=controllerFactory

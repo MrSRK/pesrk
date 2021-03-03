@@ -43,7 +43,7 @@ new Sass({sassMiddleware:sassMiddleware,path:path}).hook(app).catch(error=>{thro
 const storage=new Storage({multer:multer,path:path}).catch(error=>{throw error})
 const upload=storage.getUpload()
 
-const moduleLoader=new ModuleLoader(app,{
+new ModuleLoader(app,{
     mongoose:mongoose,
     bcrypt:bcrypt,
     jwt:jwt,
@@ -52,7 +52,7 @@ const moduleLoader=new ModuleLoader(app,{
     path:path
 },
 {
-
+    upload:upload
 })
 app.listen(process.env.EXRESS_PORT)
 
