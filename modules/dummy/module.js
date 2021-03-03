@@ -3,7 +3,7 @@ const ModuleFactory=require('../../src/factory/module.factory')
 
 class Module extends ModuleFactory
 {
-    constructor(dependencies)
+    constructor(dependencies,toolbox)
     {
         const structure={
             name:{type:String},
@@ -18,7 +18,7 @@ class Module extends ModuleFactory
             administrator:true
         }
         const moduleName='dummy'
-        super(dependencies,structure,behaviours,moduleName)
+        super(dependencies,toolbox,structure,behaviours,moduleName)
     }
     hook=app=>
     {

@@ -18,7 +18,7 @@ const modelFactory=(dependencies,structure,behaviours,moduleName)=>
         )
     }
 }
-const controllerFactory=(dependencies,behaviours)=>
+const controllerFactory=(dependencies,toolbox,behaviours)=>
 {
     return model=>
     {
@@ -27,12 +27,13 @@ const controllerFactory=(dependencies,behaviours)=>
                 bcrypt:dependencies.bcrypt,
                 jwt:dependencies.jwt
             },
+            toolbox,
             behaviours,
             model
         )
     }
 }
-const routerFactory=(dependencies,behaviours,moduleName)=>
+const routerFactory=(dependencies,toolbox,behaviours,moduleName)=>
 {
     return controller=>
     {
@@ -41,6 +42,7 @@ const routerFactory=(dependencies,behaviours,moduleName)=>
                 moduleName:moduleName,
                 express:dependencies.express
             },
+            toolbox,
             behaviours,
             moduleName,
             controller
@@ -50,7 +52,7 @@ const routerFactory=(dependencies,behaviours,moduleName)=>
 const moduleFactory=class
 {
     error=null
-    constructor(dependencies,structure,behaviours,moduleName)
+    constructor(dependencies,toolbox,structure,behaviours,moduleName)
     {
         try
         {
@@ -62,8 +64,8 @@ const moduleFactory=class
                 express:dependencies.express
             }
             this.modelFactory=modelFactory(dependencies,structure,behaviours,moduleName),
-            this.controllerFactory=controllerFactory(dependencies,behaviours),
-            this.routerFactory=routerFactory(dependencies,behaviours,moduleName)
+            this.controllerFactory=controllerFactory(dependencies,toolbox,behaviours),
+            this.routerFactory=routerFactory(dependencies,toolbox,behaviours,moduleName)
         }
         catch(error)
         {

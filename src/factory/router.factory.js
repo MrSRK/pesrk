@@ -66,6 +66,10 @@ const setter=state=>
         {
             router.put(`/api/${moduleName}/`,controller.auth.header,controller.put.api)
             router.patch(`/api/${moduleName}/:_id`,controller.auth.header,controller.patch.api)
+
+            //PREPEI NA PERASEI TO TOOLBOX....
+            //console.log(state.toolbox.upload())
+            router.post(`/api/${moduleName}/:_id/image`,state.toolbox.upload.single('image'),controller.post.image)
         }
     }
 }
@@ -126,13 +130,14 @@ const user=state=>
 }
 const routerFactory=class
 {
-    constructor(dependencies,behaviours,moduleName,controller)
+    constructor(dependencies,toolbox,behaviours,moduleName,controller)
     {
         this.router=dependencies.express.Router()
         const state=
         {
             controller:controller,
-            moduleName:moduleName
+            moduleName:moduleName,
+            toolbox:toolbox
         }
         if(behaviours.user)
             user(state).hook(this.router)

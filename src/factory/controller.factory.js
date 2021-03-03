@@ -389,6 +389,38 @@ const controller_api_signIn=(state,req,res)=>
         return controller_api_res(401,res,error)
     })
 }
+const controller_image_handler=(state,req,res)=>
+{
+    /*
+        fieldname: 'image',
+        originalname: 'avatar.jpg',
+        encoding: '7bit',
+        mimetype: 'image/jpeg',
+        destination: 'D:\\nodejsproject\\pesrk\\public\\upload\\1614781711755-366341801',
+        filename: 'original.jpg',
+        path: 'D:\\nodejsproject\\pesrk\\public\\upload\\1614781711755-366341801\\original.jpg',
+        size: 8623
+    */
+    const _id=req.params._id
+    const img={
+        originalname:req.file,
+        mimetype:"",
+        destination:"",
+        filename:"",
+        path:""
+    }
+    state.model.findByIdAndUpdate(_id,{
+        $push:{
+            images:{
+                originalname:"",
+                mimetype:"",
+                destination:"",
+                filename:"",
+                path:""
+            }
+        }
+    })
+}
 /**
  * Controller's getter's Behaviours
  * @description Ορισμός των συμπροφορών (δικαιωμάτων) για την ομάδα Getters.
@@ -416,7 +448,6 @@ const getter=state=>
  */
 const setter=state=>
 {
-	const model=state.model
 	return {
         put:
         {
@@ -427,6 +458,10 @@ const setter=state=>
         {
             api:controller_api_patch.bind(null,state),
             raw:controller_patch.bind(null,state)
+        },
+        post:
+        {
+            image:controller_image_handler.bind(null,state),
         }
 	}
 }
@@ -437,7 +472,6 @@ const setter=state=>
  */
 const remover=state=>
 {
-	const model=state.model
 	return {
         delete:
         {
@@ -500,13 +534,14 @@ const auth_mannager=state=>
  */
 const controllerFactory=class
 {
-    constructor(dependencies,behaviours,model)
+    constructor(dependencies,toolbox,behaviours,model)
     {
         const state=
         {
             model:model,
             bcrypt:dependencies.bcrypt,
-            jwt:dependencies.jwt
+            jwt:dependencies.jwt,
+            toolbox:toolbox
         }
         if(behaviours.user)
             Object.assign(this,user(state))

@@ -49,7 +49,7 @@ const ModelLoader=class
 		{
 			for(let moduleName in modulePaths)
 			{
-				this.modules[moduleName]=new (require(dependencies.path.join(modulePaths[moduleName],'module.js')))(dependencies)
+				this.modules[moduleName]=new (require(dependencies.path.join(modulePaths[moduleName],'module.js')))(dependencies,toolbox)
 				this.modules[moduleName].hook(app)
 			}
 			/**

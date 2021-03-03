@@ -40,7 +40,7 @@ new Database({mongoose:mongoose,jsonschema:jsonschema}).hook(app).catch(error=>{
 new Cookie({cookieParser:cookieParser}).hook(app).catch(error=>{throw error})
 new Sass({sassMiddleware:sassMiddleware,path:path}).hook(app).catch(error=>{throw error})
 
-const storage=new Storage({multer:multer,path:path}).catch(error=>{throw error})
+const storage=new Storage({multer:multer,path:path,fs:fs}).catch(error=>{throw error})
 const upload=storage.getUpload()
 
 new ModuleLoader(app,{
@@ -63,7 +63,6 @@ app.listen(process.env.EXRESS_PORT)
  * @todo    na ftiaksw to image upload to controller
  * @todo    na ftiaksw ton image controller
  * @todo    na ftiaksw ta static routes
- * @todo    na ftiaksw to auth to controller
  * @todo    na ftiaksw to auth to router
  * @todo    na grapsw to template
  * @todo    na grapsw ta termatika pug

@@ -1,6 +1,16 @@
 "use strict"
 const Storage=class
 {
+	/*
+		sharp(original)
+		.flatten(im.flaten)
+		.resize(im.width,im.heigth,im.args)
+		.toFile(im.path,(error,info)=>
+		{
+			if(error)
+				console.log(error)
+		})
+	*/
 	error=null
 	constructor(dependencies)
 	{
@@ -9,12 +19,16 @@ const Storage=class
 			let storage=dependencies.multer.diskStorage({
 				destination:(req,file,next)=>
 				{
-					next(null,dependencies.path.join(__dirname,'../../'+(process.env.SASS_SRC||'public/upload')))
+					const uniqueSuffix=Date.now()+'-'+Math.round(Math.random()*1E9)
+					const d=(new Date()).toLocaleDateString().split('/')
+					const p=dependencies.path.join(__dirname,'../../',process.env.MULTER_UPLOAD||'public/upload',d[2],d[1],d[2],uniqueSuffix)
+					dependencies.fs.mkdirSync(p,{recursive:true})
+					next(null,p)
 				},
 				filename:(req,file,next)=>
 				{
-					const uniqueSuffix=Date.now()+'-'+Math.round(Math.random()*1E9)
-					next(null,file.fieldname+'-'+uniqueSuffix)
+					const type=file.originalname.split('.').reverse()[0]
+					next(null,`original.${type}`)
 				}
 			})
 			this.multer=dependencies.multer({storage:storage})
