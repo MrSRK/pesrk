@@ -23,6 +23,9 @@ const Security=require('./src/core/security.core')
 const Sass=require('./src/core/sass.core')
 const Storage=require('./src/core/storage.core')
 
+
+const ModuleLoader=require('./src/module.loader')
+
 dotenv.config()
 
 const app=express()
@@ -38,3 +41,17 @@ new Sass({sassMiddleware:sassMiddleware,path:path}).hook(app).catch(error=>{thro
 
 const storage=new Storage({multer:multer,path:path}).catch(error=>{throw error})
 const upload=storage.getUpload()
+
+const moduleLoader=new ModuleLoader(app,{
+    mongoose:mongoose,
+    bcrypt:bcrypt,
+    jwt:jwt,
+    express:express,
+    fs:fs,
+    path,path
+},
+{
+
+})
+
+app.listen(8080)

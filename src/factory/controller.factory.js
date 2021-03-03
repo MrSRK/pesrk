@@ -174,7 +174,7 @@ const controller_login=(state,username,password)=>
 const controller_api_res=(res,error,data)=>
 {
     if(error)
-        return res.status(500).json(error)
+        return res.status(500).json({error:true,message:error.message})
     return res.status(200).json(data)
 }
 /**
@@ -451,16 +451,16 @@ const controllerFactory=class
             bcrypt:dependencies.bcrypt,
             jwt:dependencies.jwt
         }
+        if(behaviours.user)
+            Object.assign(this,user(state))
+        if(behaviours.administrator)
+            Object.assign(this,administrator(state))
         if(behaviours.getter)
             Object.assign(this,getter(state))
         if(behaviours.setter)
             Object.assign(this,setter(state))
         if(behaviours.remover)
             Object.assign(this,remover(state))
-        if(behaviours.user)
-            Object.assign(this,user(state))
-        if(behaviours.administrator)
-            Object.assign(this,administrator(state))
     }
 } 
 module.exports=controllerFactory
