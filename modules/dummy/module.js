@@ -46,7 +46,6 @@ class Module extends ModuleFactory
         .catch(error=>
         {
             // Add extra error handling
-            console.log(error)
             return this
         })
     }

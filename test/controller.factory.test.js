@@ -210,7 +210,7 @@ describe('Controller Factory Unit Test',_=>
         .send({row:{name:'Stelios',username:'roubes6@hotmail.comBBB',password:'123'}})
         .then(resp=>
         {
-            expect(resp).to.have.status(200)
+            expect(resp).to.have.status(201)
             const doc=JSON.parse(resp.text)
             expect(doc).to.be.a('object')
             _id=doc._id

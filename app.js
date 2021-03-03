@@ -48,7 +48,7 @@ const moduleLoader=new ModuleLoader(app,{
     jwt:jwt,
     express:express,
     fs:fs,
-    path,path
+    path:path
 },
 {
 

@@ -171,11 +171,11 @@ const controller_login=(state,username,password)=>
  * @param {object} data
  * @returns {Object} Express's response Object
  */
-const controller_api_res=(res,error,data)=>
+const controller_api_res=(status,res,error,data)=>
 {
     if(error)
-        return res.status(500).json({error:true,message:error.message})
-    return res.status(200).json(data)
+        return res.status(status||500).json({error:true,message:error.message})
+    return res.status(status||200).json(data)
 }
 /**
  * constroller's Behaviours API Get
@@ -191,12 +191,12 @@ const controller_api_get=(state,req,res)=>
     return controller_get(state,where,select)
     .then(doc=>
     {
-        return controller_api_res(res,null,doc)
+        return controller_api_res(200,res,null,doc)
     })
     .catch(error=>
     {
         console.log(error)
-        return controller_api_res(res,error)
+        return controller_api_res(500,res,error)
     })
 }
 /**
@@ -213,11 +213,11 @@ const controller_api_getById=(state,req,res)=>
     return controller_getById(state,_id,select)
     .then(doc=>
     {
-        return controller_api_res(res,null,doc)
+        return controller_api_res(200,res,null,doc)
     })
     .catch(error=>
     {
-        return controller_api_res(res,error)
+        return controller_api_res(500,res,error)
     })
 }
 /**
@@ -235,11 +235,11 @@ const controller_api_put=(state,req,res)=>
     return controller_put(state,row)
     .then(doc=>
     {
-        return controller_api_res(res,null,doc)
+        return controller_api_res(201,res,null,doc)
     })
     .catch(error=>
     {
-        return controller_api_res(res,error)
+        return controller_api_res(500,res,error)
     })
 }
 /**
@@ -256,11 +256,11 @@ const controller_api_patch=(state,req,res)=>
     return controller_patch(state,_id,row)
     .then(doc=>
     {
-        return controller_api_res(res,null,doc)
+        return controller_api_res(201,res,null,doc)
     })
     .catch(error=>
     {
-        return controller_api_res(res,error)
+        return controller_api_res(500,res,error)
     })
 }
 /**
@@ -277,11 +277,11 @@ const controller_api_delete=(state,req,res)=>
     return controller_delete(state,_id)
     .then(doc=>
     {
-        return controller_api_res(res,null,doc)
+        return controller_api_res(200,res,null,doc)
     })
     .catch(error=>
     {
-        return controller_api_res(res,error)
+        return controller_api_res(500,res,error)
     })
 }
 /**
@@ -304,7 +304,7 @@ const controller_api_login=(state,req,res)=>
     .then(user=>
     {
         const token=jwt.sign({_id:user._id},JWT_SECRET,{expiresIn:JWT_EXP})
-        return controller_api_res(res,null,{
+        return controller_api_res(200,res,null,{
             _id:user._id,
             user:user.name,
             utoken:token
@@ -312,8 +312,7 @@ const controller_api_login=(state,req,res)=>
     })
     .catch(error=>
     {
-        console.log(error)
-        return controller_api_res(res,error)
+        return controller_api_res(res,error,null,401)
     })
 }
 /**
@@ -336,7 +335,7 @@ const controller_api_signIn=(state,req,res)=>
     .then(user=>
     {
         const token=jwt.sign({_id:user._id},JWT_SECRET,{expiresIn:JWT_EXP})
-        return controller_api_res(res,null,{
+        return controller_api_res(200,res,null,{
             _id:user._id,
             user:user.name,
             token:token
@@ -344,7 +343,7 @@ const controller_api_signIn=(state,req,res)=>
     })
     .catch(error=>
     {
-        return controller_api_res(res,error)
+        return controller_api_res(401,res,error)
     })
 }
 /**
