@@ -5,7 +5,7 @@
  * @param {string} modulesPath 
  * @returns {object} Module paths / Modules Directories at <modeles> Directory
  */
-const getModulesPaths=(dependencies,modulesPath)=>
+const getModulesPaths=async(dependencies,modulesPath)=>
 {
 	return new Promise((resolve,reject)=>
 	{
@@ -52,6 +52,38 @@ const ModelLoader=class
 				this.modules[moduleName]=new (require(dependencies.path.join(modulePaths[moduleName],'module.js')))(dependencies)
 				this.modules[moduleName].hook(app)
 			}
+			/**
+			 * Hook to app the api default message "Unknown Request" (Error 404)
+			 */
+			app.all('/api*',(req,res)=>
+			{
+				return res.status(404).json({status:false,message:'Unknown Request'})
+			})
+			/**
+			 * Hook to app all the default pages
+			 */
+			app.get('/',(req,res)=>
+			{
+				return res.render('home',{
+					config:JSON.stringify(
+					{
+						m:null,
+						f:null,
+						i:null
+					})
+				})
+			})
+			app.all('*',(req,res)=>
+			{
+				return res.status(404).render('404',{
+					config:JSON.stringify(
+					{
+						m:null,
+						f:null,
+						i:null
+					})
+				})
+			})
 		})
 		.catch(error=>
 		{

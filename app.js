@@ -23,7 +23,6 @@ const Security=require('./src/core/security.core')
 const Sass=require('./src/core/sass.core')
 const Storage=require('./src/core/storage.core')
 
-
 const ModuleLoader=require('./src/module.loader')
 
 dotenv.config()
@@ -31,6 +30,8 @@ dotenv.config()
 const app=express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.set('view engine', 'pug')
+app.set('views','./views')
 
 new ErrorsDev({errorhandler:errorhandler}).hook(app).catch(error=>{throw error})
 new ErrorsLoger({morgan:morgan,rfs:rfs,fs:fs,path:path}).hook(app).catch(error=>{throw error})
@@ -53,5 +54,19 @@ const moduleLoader=new ModuleLoader(app,{
 {
 
 })
+app.listen(process.env.EXRESS_PORT)
 
-app.listen(8080)
+
+
+/**
+ * @todo    na ftiaksw ta toolbox na pernaei o multer ston controller
+ * @todo    na ftiaksw to image upload to controller
+ * @todo    na ftiaksw ton image controller
+ * @todo    na ftiaksw ta static routes
+ * @todo    na ftiaksw to auth to controller
+ * @todo    na ftiaksw to auth to router
+ * @todo    na grapsw to template
+ * @todo    na grapsw ta termatika pug
+ * @todo    na grasw ta public js... UX
+ * @todo    testing testing testing
+ */
