@@ -5,3 +5,5 @@ script:
   - npm test
 notifications:
   email:  false
+services:
+  - mongodb
