@@ -28,6 +28,7 @@ const ErrorsLoger=class
 		}
 		catch(error)
 		{
+			console.log(error)
 			this.error=error
 		}
 	}
@@ -35,7 +36,10 @@ const ErrorsLoger=class
 	{
 		try
 		{
-			app.use(this.morgan)
+			setTimeout(_=>
+			{
+				app.use(this.morgan)
+			},2000)
 		}
 		catch(error)
 		{

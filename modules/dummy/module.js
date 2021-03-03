@@ -8,7 +8,13 @@ class Module extends ModuleFactory
         const structure={
             name:{type:String},
             username:{type:String,unique:true},
-            password:{type:String}
+            password:{type:String},
+            images:[{
+                originalname:{type:String},
+                destination:{type:String},
+                filename:{type:String},
+                path:{type:String}
+            }]
         }
         const behaviours={
             getter:true,

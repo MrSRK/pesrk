@@ -25,7 +25,9 @@ const controllerFactory=(dependencies,toolbox,behaviours)=>
         return new ControllerFactory(
             {
                 bcrypt:dependencies.bcrypt,
-                jwt:dependencies.jwt
+                jwt:dependencies.jwt,
+                path:dependencies.path,
+                sharp:dependencies.sharp
             },
             toolbox,
             behaviours,

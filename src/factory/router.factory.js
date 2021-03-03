@@ -66,10 +66,7 @@ const setter=state=>
         {
             router.put(`/api/${moduleName}/`,controller.auth.header,controller.put.api)
             router.patch(`/api/${moduleName}/:_id`,controller.auth.header,controller.patch.api)
-
-            //PREPEI NA PERASEI TO TOOLBOX....
-            //console.log(state.toolbox.upload())
-            router.post(`/api/${moduleName}/:_id/image`,state.toolbox.upload.single('image'),controller.post.image)
+            router.post(`/api/${moduleName}/:_id/image`,controller.auth.header,state.toolbox.upload.single('image'),controller.post.image)
         }
     }
 }

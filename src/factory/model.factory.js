@@ -48,7 +48,7 @@ const model_findById=(state,_id,select)=>
 	{
 		return model
 		.findById(_id)
-		//.select(select)
+		.select(select)
 		.then(doc=>{
 			return resolve(doc)
 		})
@@ -106,7 +106,7 @@ const model_findByIdAndUpdate=(state,_id,row,select)=>
 	return new Promise((resolve,reject)=>
 	{
 		return model
-		.findByIdAndUpdate(_id,row,{new:true})
+		.findByIdAndUpdate(_id,row,{new:true,upsert:true})
 		.select(select)
 		.then(doc=>{
 			return resolve(doc)

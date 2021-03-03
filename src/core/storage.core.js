@@ -1,16 +1,6 @@
 "use strict"
 const Storage=class
 {
-	/*
-		sharp(original)
-		.flatten(im.flaten)
-		.resize(im.width,im.heigth,im.args)
-		.toFile(im.path,(error,info)=>
-		{
-			if(error)
-				console.log(error)
-		})
-	*/
 	error=null
 	constructor(dependencies)
 	{
@@ -21,7 +11,7 @@ const Storage=class
 				{
 					const uniqueSuffix=Date.now()+'-'+Math.round(Math.random()*1E9)
 					const d=(new Date()).toLocaleDateString().split('/')
-					const p=dependencies.path.join(__dirname,'../../',process.env.MULTER_UPLOAD||'public/upload',d[2],d[1],d[2],uniqueSuffix)
+					const p=dependencies.path.join(__dirname,'../../',process.env.MULTER_UPLOAD||'public/upload',d[2],d[1],d[0],uniqueSuffix)
 					dependencies.fs.mkdirSync(p,{recursive:true})
 					next(null,p)
 				},

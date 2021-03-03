@@ -14,6 +14,7 @@ const rfs=require('rotating-file-stream')
 const helmet=require('helmet')
 const sassMiddleware=require('node-sass-middleware')
 const multer=require('multer')
+const sharp=require('sharp')
 
 const Cookie=require('./src/core/cookie.core')
 const Database=require('./src/core/database.core')
@@ -24,6 +25,10 @@ const Sass=require('./src/core/sass.core')
 const Storage=require('./src/core/storage.core')
 
 const ModuleLoader=require('./src/module.loader')
+
+
+
+
 
 dotenv.config()
 
@@ -49,7 +54,8 @@ new ModuleLoader(app,{
     jwt:jwt,
     express:express,
     fs:fs,
-    path:path
+    path:path,
+    sharp:sharp
 },
 {
     upload:upload

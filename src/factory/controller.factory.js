@@ -173,6 +173,7 @@ const controller_login=(state,username,password)=>
  */
 const controller_api_auth=(state,type,req,res,next)=>
 {
+    //return next()
     try
     {
         let authorization=null
@@ -391,35 +392,46 @@ const controller_api_signIn=(state,req,res)=>
 }
 const controller_image_handler=(state,req,res)=>
 {
-    /*
-        fieldname: 'image',
-        originalname: 'avatar.jpg',
-        encoding: '7bit',
-        mimetype: 'image/jpeg',
-        destination: 'D:\\nodejsproject\\pesrk\\public\\upload\\1614781711755-366341801',
-        filename: 'original.jpg',
-        path: 'D:\\nodejsproject\\pesrk\\public\\upload\\1614781711755-366341801\\original.jpg',
-        size: 8623
-    */
     const _id=req.params._id
     const img={
-        originalname:req.file,
-        mimetype:"",
-        destination:"",
-        filename:"",
-        path:""
+        originalname:req.file.originalname,
+        destination:req.file.destination,
+        filename:req.file.filename,
+        path:req.file.path
     }
-    state.model.findByIdAndUpdate(_id,{
-        $push:{
-            images:{
-                originalname:"",
-                mimetype:"",
-                destination:"",
-                filename:"",
-                path:""
-            }
-        }
+    return state.model
+    .findById(_id)
+    .then(data=>
+    {
+        if(!data.images)
+            data.images=[]
+        data.images.push(img)
+        return state.model
+        .findByIdAndUpdate(_id,data)
+        .then(doc=>
+        {
+            return state.sharp(img.path)
+            .flatten(true)
+            .resize(200,300)
+            .toFile(state.path.join(img.destination,'thumbnail.webp'),(error,info)=>
+            {
+                if(error)
+                    return controller_api_res(500,res,error)
+                return controller_api_res(200,res,null,data)
+            })
+           
+        })
+        .catch(error=>
+        {
+            return controller_api_res(500,res,error)
+        })
     })
+    .catch(error=>
+    {
+        return controller_api_res(500,res,error)
+    })
+    
+    
 }
 /**
  * Controller's getter's Behaviours
@@ -541,6 +553,8 @@ const controllerFactory=class
             model:model,
             bcrypt:dependencies.bcrypt,
             jwt:dependencies.jwt,
+            path:dependencies.path,
+            sharp:dependencies.sharp,
             toolbox:toolbox
         }
         if(behaviours.user)
