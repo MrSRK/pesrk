@@ -2,7 +2,7 @@
 FROM node:14
 
 # Set working directory. Paths will be relative this WORKDIR.
-WORKDIR F:\Users\rubes\OneDrive\Desktop\pesrk
+WORKDIR /usr/src/app
 
 # Install dependencies
 COPY package*.json ./
