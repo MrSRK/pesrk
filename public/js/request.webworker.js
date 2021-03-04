@@ -85,6 +85,10 @@ const Jober=class
 					query.push(`${key}=${JSON.stringify(params[key])}`)
 				if(query.length>0)
 					url=`${url}?${query.join('&')}`
+
+				headers['Accept']='application/json,text/plain,*/*'
+				headers['Content-Type']='application/json;charset=utf-8'
+
 				http.open(type,url,true)
 				for(let key in headers)
 					http.setRequestHeader(key,headers[key])

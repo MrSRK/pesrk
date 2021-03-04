@@ -26,10 +26,6 @@ const Storage=require('./src/core/storage.core')
 
 const ModuleLoader=require('./src/module.loader')
 
-
-
-
-
 dotenv.config()
 
 const app=express()
@@ -40,7 +36,7 @@ app.set('views','./views')
 
 new ErrorsDev({errorhandler:errorhandler}).hook(app).catch(error=>{throw error})
 new ErrorsLoger({morgan:morgan,rfs:rfs,fs:fs,path:path}).hook(app).catch(error=>{throw error})
-new Security({helmet:helmet}).hook(app).catch(error=>{throw error})
+//new Security({helmet:helmet}).hook(app).catch(error=>{throw error})
 new Database({mongoose:mongoose,jsonschema:jsonschema}).hook(app).catch(error=>{throw error})
 new Cookie({cookieParser:cookieParser}).hook(app).catch(error=>{throw error})
 new Sass({sassMiddleware:sassMiddleware,path:path}).hook(app).catch(error=>{throw error})

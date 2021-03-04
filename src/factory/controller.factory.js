@@ -233,6 +233,9 @@ const controller_api_get=(state,req,res)=>
 {
     const where=req.body.where||{}
     const select=req.body.select||''
+
+    console.log(req.body)
+
     return controller_get(state,where,select)
     .then(doc=>
     {
