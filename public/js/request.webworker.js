@@ -1,58 +1,41 @@
 "use strict"
-const jober=new Jober()
-onmessage=event=>
-{
-	jober
-	.assine(event.data.job,event.data.payload)
-	.then(resp=>
-	{
-		postMessage(resp)
-	})
-	.catch(resp=>
-	{
-		postMessage(resp)
-	})
-}
 const Jober=class
 {
 	constructor()
 	{
 
 	}
-	assine=(job,payload)=>
+	assineJob=(job,payload,next)=>
 	{
-		return new Promise((resolve,reject)=>
+		try
 		{
-			try
+			if(typeof job!='string')
+				throw new Error('Unknown job format (need string)')
+			if(typeof payload!='object')
+				throw new Error('Unknown payload format (need object)')
+			switch(job)
 			{
-				if(typeof job!='string')
-					throw new Error('Unknown job format (need string)')
-				if(typeof payload!='object')
-					throw new Error('Unknown payload format (need object)')
-				switch(job)
-				{
-					case 'request':
-						this.job_request(payload||{})
-						.then(resp=>
-						{
-							return resolve(this.post_message(resp))
-						})
-						.catch(error=>
-						{
-							return reject(this.post_error(error))
-						})
-						break
-					default:
-						throw new Error(`Unkown job (${job})`)
-				}
+				case 'request':
+					this.job_request(payload||{})
+					.then(resp=>
+					{
+						return next(null,jober.post_message(resp))
+					})
+					.catch(error=>
+					{
+						return next(jober.post_error(error))
+					})
+					break
+				default:
+					throw new Error(`Unkown job (${job})`)
 			}
-			catch(error)
-			{
-				return reject(this.post_error(error))
-			}	
-		})
+		}
+		catch(error)
+		{
+			return next(jober.post_error(error))
+		}
 	}
-	post_message(resp)
+	post_message=resp=>
 	{
 		return JSON.stringify({
 			status:true,
@@ -60,25 +43,25 @@ const Jober=class
 			doc:resp
 		})
 	}
-	post_error(error)
+	post_error=error=>
 	{
 		return JSON.stringify({
-			status:true,
-			error:error,
+			status:false,
+			error:error.message,
 			doc:null
 		})
 	}
-	job_request(payload)
+	job_request=payload=>
 	{
-		new Promise((resolve,reject)=>
+		return new Promise((resolve,reject)=>
 		{
 			try
 			{
 				if(!payload.url||typeof payload.url!='string')
 					throw new Error('Unknow request url')
 				if(!payload.type)
-					payload.params='get'
-				else if(typeof payload.params!='string')
+					payload.type='get'
+				else if(typeof payload.type!='string')
 				if(!payload.params)
 					payload.params={}
 				else if(typeof payload.params!='object')
@@ -91,10 +74,11 @@ const Jober=class
 					payload.headers={}
 				else if(typeof payload.headers!='object')
 					throw new Error('Unknow request headers')
-				const url=payload.url
+				let url=payload.url
 				const params=payload.params
 				const body=payload.body
 				const headers=payload.headers
+				const type=payload.type
 				const http=new XMLHttpRequest()
 				let query=[]
 				for(let key in params)
@@ -110,7 +94,7 @@ const Jober=class
 					try
 					{
 						if(http.readyState==4)
-							return resolve(null,JSON.parse(http.responseText))
+							return resolve(JSON.parse(http.responseText))
 					}
 					catch(error)
 					{
@@ -124,4 +108,15 @@ const Jober=class
 			}
 		})
 	}
+}
+const jober=new Jober()
+onmessage=event=>
+{
+	jober
+	.assineJob(event.data.job,event.data.payload,(error,data)=>
+	{
+		if(error)
+			return postMessage(error)
+		return postMessage(data)
+	})
 }

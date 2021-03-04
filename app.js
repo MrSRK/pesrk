@@ -49,7 +49,7 @@ const storage=new Storage({multer:multer,path:path,fs:fs}).catch(error=>{throw e
 const upload=storage.getUpload()
 
 app.use('/css',express.static(path.join(__dirname,'public/css'),{maxAge:31557600000}))
-app.use('/js',express.static(path.join(__dirname,'public/css'),{maxAge:31557600000}))
+app.use('/js',express.static(path.join(__dirname,'public/js'),{maxAge:31557600000}))
 app.use('/images',express.static(path.join(__dirname,'public/images'),{maxAge:31557600000}))
 app.use('/static',express.static(path.join(__dirname,'public/upload'),{maxAge:31557600000}))
 app.use('/js', express.static(path.join(__dirname,'node_modules/popper.js/dist/umd'),{maxAge:31557600000}))
