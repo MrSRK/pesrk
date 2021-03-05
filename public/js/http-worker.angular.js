@@ -40,6 +40,12 @@ angular.module('http-worker',['ng'])
 	{
 		return new Promise((resolve,reject)=>
 		{
+			console.log({
+				type:'patch',
+				url:url,
+				body:body,
+				headers:headers
+			})
 			worker_request({
 				type:'patch',
 				url:url,

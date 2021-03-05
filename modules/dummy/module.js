@@ -7,6 +7,7 @@ class Module extends ModuleFactory
     {
         const structure={
             name:{type:String},
+            active:{type:Boolean,default:true},
             username:{type:String,unique:true},
             password:{type:String},
             images:[{

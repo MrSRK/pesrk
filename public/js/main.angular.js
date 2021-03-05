@@ -54,22 +54,31 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
         {
             super(bond)
         }
-        active=(_id,stage)=>
+        active=(row)=>
         {
-            $whttp.patch(`/api/${this.bond}/${_id}`,{row:{active:stage}})
+            console.log(row)
+            $whttp.patch(`/api/${this.bond}/${row._id}`,{row:{active:!row.active}})
             .then(doc=>
             {
-                //
+                console.log('DOC')
+                console.log(doc)
+                row=doc
             })
             .catch(error=>
             {
-                //
+                console.log(error)
             })
         }
     }
-
-    console.log(wpshow)
-    //wlist.get({name:{$regex:'Stelios 3'}})
-    //wShow.get('-username')
-
+    const wtable=new Wtable('dummy')
+    wtable.get()
+    setTimeout(_=>
+    {
+        
+        wtable.active(wtable.data[1])
+        setTimeout(_=>
+        {
+            console.log(wtable.data)
+        },2000)
+    },3000)
 }])

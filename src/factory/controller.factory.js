@@ -234,8 +234,6 @@ const controller_api_get=(state,req,res)=>
     const where=req.body.where||{}
     const select=req.body.select||''
 
-    console.log(req.body)
-
     return controller_get(state,where,select)
     .then(doc=>
     {
@@ -300,10 +298,13 @@ const controller_api_patch=(state,req,res)=>
 {
     const _id=req.params._id
     const row=req.body.row
+
+    console.log(req.body)
+
     return controller_patch(state,_id,row)
     .then(doc=>
     {
-        return controller_api_res(201,res,null,doc)
+        return controller_api_res(200,res,null,doc)
     })
     .catch(error=>
     {
