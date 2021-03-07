@@ -88,10 +88,6 @@ const Jober=class
 
 				headers['Accept']='application/json,text/plain,*/*'
 				headers['Content-Type']='application/json;charset=utf-8'
-				//headers['Access-Control-Allow-Methods']="POST, GET, OPTIONS PATCH"
-
-				console.log(headers)
-				console.log(body)
 
 				http.open(type,url,true)
 				for(let key in headers)

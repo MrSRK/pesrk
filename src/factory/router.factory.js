@@ -13,45 +13,35 @@ const getter=state=>
             router.get(`/${moduleName}/`,(req,res)=>
             {
                 return res.render('list',{
-                    config:JSON.stringify(
-                    {
-                        m:moduleName,
-                        f:'get',
-                        i:null
-                    })
+                    m:moduleName,
+                    f:'get',
+                    i:null
                 })
             })
             router.get(`/${moduleName}/:_id`,(req,res)=>
             {
                 return res.render('show',{
-                    config:JSON.stringify(
-                    {
-                        m:moduleName,
-                        f:'getById',
-                        i:req.params._id
-                    })
+                    m:moduleName,
+                    f:'getById',
+                    i:req.params._id
                 })
             })
             router.get(`/admin/${moduleName}/`,(req,res)=>
             {
                 return res.render('table',{
-                    config:JSON.stringify(
-                    {
-                        m:moduleName,
-                        f:'get',
-                        i:null
-                    })
+                    m:moduleName,
+                    f:'get',
+                    i:null
                 })
             })
             router.get(`/admin/${moduleName}/:_id`,(req,res)=>
             {
                 return res.render('form',{
-                    config:JSON.stringify(
-                    {
-                        m:moduleName,
-                        f:'getById',
-                        i:req.params._id
-                    })
+                    
+                    m:moduleName,
+                    f:'getById',
+                    i:req.params._id
+
                 })
             })
         }

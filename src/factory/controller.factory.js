@@ -173,7 +173,7 @@ const controller_login=(state,username,password)=>
  */
 const controller_api_auth=(state,type,req,res,next)=>
 {
-    //return next()
+    return next()
     try
     {
         let authorization=null
@@ -298,8 +298,6 @@ const controller_api_patch=(state,req,res)=>
 {
     const _id=req.params._id
     const row=req.body.row
-
-    console.log(req.body)
 
     return controller_patch(state,_id,row)
     .then(doc=>

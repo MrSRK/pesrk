@@ -9,15 +9,15 @@ html(lang="el",data-ng-app="app",data-ng-controller="page-handler")
 		title #{title} - Ptixiaki
 		//link(rel='shortcut icon', href='/favicon.png')
 		link(rel='stylesheet', href='/css/main.css')
-
+		base(href="/")
 	body
-		//include partials/header
+		include partials/header
 
-		.container-fuild
+		.container-fuild.px-5
 			//include partials/messages
 			block content
 
-		//include partials/footer
+		include partials/footer
 
 		script(src='/js/jquery.min.js')
 		script(src='/js/popper.min.js')

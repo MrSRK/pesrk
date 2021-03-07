@@ -2,14 +2,30 @@
 const app=angular.module("app",['http-worker'])
 app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
 {
-
+    $scope.prepear=(object,bond,_id)=>
+    {
+        switch(object)
+        {
+            case 'wlist':
+                return new Wlist(bond)
+            case 'wtable':
+                return new Wtable(bond)
+            case 'wshow':
+                return new Wshow(bond,_id)
+            case 'wform':
+                    return Wform(bond,_id)
+            default:
+                console.log('Unprepared prepear...')
+        }
+    }
     const Wlist=class
     {
         data=[]
         constructor(bond)
         {
+            console.log('ade gamisou')
             this.bond=bond
-            $scope[bond]=this
+            $scope.model=this
         }
         get=(where,select)=>
         {
@@ -17,6 +33,7 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
             .then(data=>
             {
                 this.data=data.doc
+                $scope.$apply()
             })
             .catch(error=>
             {
@@ -24,14 +41,14 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
             })
         }
     }
-    const WShow=class
+    const Wshow=class
     {
         data=[]
         constructor(bond,_id)
         {
             this.bond=bond
             this._id=_id
-            $scope[bond]=this
+            $scope.model=this
         }
         get=(select)=>
         {
@@ -39,6 +56,7 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
             .then(data=>
             {
                 this.data=data.doc
+                $scope.$apply()
             })
             .catch(error=>
             {
@@ -54,15 +72,37 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
         {
             super(bond)
         }
-        active=(row)=>
+        active=(row,index)=>
         {
-            console.log(row)
-            $whttp.patch(`/api/${this.bond}/${row._id}`,{row:{active:!row.active}})
+            return $http
+            .patch(`/api/${this.bond}/${row._id}`,{row:{active:!row.active}})
             .then(doc=>
             {
-                console.log('DOC')
-                console.log(doc)
-                row=doc
+                if(doc.data)
+                    this.data[index]=doc.data
+            })
+            .catch(error=>
+            {
+                console.log(error)
+            })
+
+        }
+    }
+    const Wform=class extends Wshow
+    {
+        data=[]
+        constructor(bond,_id)
+        {
+            super(bond,_id)
+        }
+        save=_=>
+        {
+            return $http
+            .patch(`/api/${this.bond}/${this._id}`,{row:this.data})
+            .then(doc=>
+            {
+                if(doc.data)
+                    this.data=doc.data
             })
             .catch(error=>
             {
@@ -70,15 +110,4 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
             })
         }
     }
-    const wtable=new Wtable('dummy')
-    wtable.get()
-    setTimeout(_=>
-    {
-        
-        wtable.active(wtable.data[1])
-        setTimeout(_=>
-        {
-            console.log(wtable.data)
-        },2000)
-    },3000)
 }])

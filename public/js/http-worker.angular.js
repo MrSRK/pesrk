@@ -13,7 +13,7 @@ angular.module('http-worker',['ng'])
 	{
 		return new Promise((resolve,reject)=>
 		{
-			worker_request({
+			return worker_request({
 				type:'delete',
 				url:url,
 				params:params,
@@ -40,13 +40,7 @@ angular.module('http-worker',['ng'])
 	{
 		return new Promise((resolve,reject)=>
 		{
-			console.log({
-				type:'patch',
-				url:url,
-				body:body,
-				headers:headers
-			})
-			worker_request({
+			return worker_request({
 				type:'patch',
 				url:url,
 				body:body,
@@ -73,7 +67,7 @@ angular.module('http-worker',['ng'])
 	{
 		return new Promise((resolve,reject)=>
 		{
-			worker_request({
+			return worker_request({
 				type:'put',
 				url:url,
 				body:body,
@@ -100,7 +94,7 @@ angular.module('http-worker',['ng'])
 	{
 		return new Promise((resolve,reject)=>
 		{
-			worker_request({
+			return worker_request({
 				type:'post',
 				url:url,
 				body:body,
@@ -126,7 +120,7 @@ angular.module('http-worker',['ng'])
 	{
 		return new Promise((resolve,reject)=>
 		{
-			worker_request({
+			return worker_request({
 				type:'get',
 				url:url,
 				params:params,
@@ -158,7 +152,7 @@ angular.module('http-worker',['ng'])
 					job:'request',
 					payload:payload
 				})
-				worker.onmessage=message=>
+				return worker.onmessage=message=>
 				{
 					try
 					{

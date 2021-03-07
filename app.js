@@ -34,9 +34,16 @@ app.use(express.urlencoded({extended:true}))
 app.set('view engine', 'pug')
 app.set('views','./views')
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With,     Content-Type, Accept");
+    next();
+    });
+
+    
 new ErrorsDev({errorhandler:errorhandler}).hook(app).catch(error=>{throw error})
 new ErrorsLoger({morgan:morgan,rfs:rfs,fs:fs,path:path}).hook(app).catch(error=>{throw error})
-new Security({helmet:helmet}).hook(app).catch(error=>{throw error})
+//new Security({helmet:helmet}).hook(app).catch(error=>{throw error})
 new Database({mongoose:mongoose,jsonschema:jsonschema}).hook(app).catch(error=>{throw error})
 new Cookie({cookieParser:cookieParser}).hook(app).catch(error=>{throw error})
 new Sass({sassMiddleware:sassMiddleware,path:path}).hook(app).catch(error=>{throw error})
