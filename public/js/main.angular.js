@@ -2,6 +2,13 @@
 const app=angular.module("app",['http-worker'])
 app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
 {
+    $scope.links=
+    {
+        setInclude:(m,f,i,t)=>
+        {
+            return `/template/${t}.${f}.html?m=${m}&f=${f}&i=${i}&t=${t}`
+        }
+    }
     $scope.handlers={}
     $scope.prepear=(handler,bond,_id)=>
     {

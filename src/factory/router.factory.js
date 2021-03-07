@@ -14,24 +14,27 @@ const getter=state=>
             {
                 return res.render('list',{
                     m:moduleName,
-                    f:'get',
-                    i:null
+                    f:'list',
+                    i:null,
+                    t:'default'
                 })
             })
             router.get(`/${moduleName}/:_id`,(req,res)=>
             {
                 return res.render('show',{
                     m:moduleName,
-                    f:'getById',
-                    i:req.params._id
+                    f:'show',
+                    i:req.params._id,
+                    t:'default'
                 })
             })
             router.get(`/admin/${moduleName}/`,(req,res)=>
             {
                 return res.render('table',{
                     m:moduleName,
-                    f:'get',
-                    i:null
+                    f:'table',
+                    i:null,
+                    t:'default'
                 })
             })
             router.get(`/admin/${moduleName}/:_id`,(req,res)=>
@@ -39,8 +42,9 @@ const getter=state=>
                 return res.render('form',{
                     
                     m:moduleName,
-                    f:'getById',
-                    i:req.params._id
+                    f:'form',
+                    i:req.params._id,
+                    t:'default'
 
                 })
             })
@@ -85,8 +89,9 @@ const administrator=state=>
                     config:JSON.stringify(
                     {
                         m:moduleName,
-                        f:null,
-                        i:null
+                        f:'login',
+                        i:null,
+                        t:'default'
                     })
                 })
             })
@@ -107,8 +112,9 @@ const user=state=>
                     config:JSON.stringify(
                     {
                         m:moduleName,
-                        f:null,
-                        i:null
+                        f:'signIn',
+                        i:null,
+                        t:'default'
                     })
                 })
             })

@@ -52,6 +52,16 @@ const ModelLoader=class
 				this.modules[moduleName]=new (require(dependencies.path.join(modulePaths[moduleName],'module.js')))(dependencies,toolbox)
 				this.modules[moduleName].hook(app)
 			}
+			app.get('/template/:template.:mod.html',(req,res)=>
+			{
+				console.log(`template/${req.params.template}.${req.params.mod}.pug`)
+				return res.render(`template/${req.params.template}.${req.params.mod}.pug`,{
+					m:req.query.m||null,
+					f:req.query.f||null,
+					i:req.query.i||null,
+					t:req.query.t||null
+				})
+			})
 			/**
 			 * Hook to app the api default message "Unknown Request" (Error 404)
 			 */
@@ -65,23 +75,19 @@ const ModelLoader=class
 			app.get('/',(req,res)=>
 			{
 				return res.render('home',{
-					config:JSON.stringify(
-					{
-						m:null,
-						f:null,
-						i:null
-					})
+					m:null,
+					f:null,
+					i:null,
+					t:'default'
 				})
 			})
 			app.all('*',(req,res)=>
 			{
 				return res.status(404).render('404',{
-					config:JSON.stringify(
-					{
-						m:null,
-						f:null,
-						i:null
-					})
+					m:null,
+					f:null,
+					i:null,
+					t:'default'
 				})
 			})
 		})

@@ -7,6 +7,7 @@ class Module extends ModuleFactory
     {
         const structure={
             active:{type:Boolean,default:true},
+            offer:{type:Boolean,default:true},
             name:{type:String},
             title:{type:String},
             description:{type:String},
@@ -51,6 +52,33 @@ class Module extends ModuleFactory
         .getRouter(router=>
         {
             // Add Express router Extensions
+            router.get(`/product-offer`,(req,res)=>
+            {
+                return res.render('list',{
+                    m:'product',
+                    f:'list',
+                    i:'offer',
+                    t:'product'
+                })
+            })
+            router.get(`/product-demand`,(req,res)=>
+            {
+                return res.render('list',{
+                    m:'product',
+                    f:'list',
+                    i:'demand',
+                    t:'product'
+                })
+            })
+            router.get(`/product-all`,(req,res)=>
+            {
+                return res.render('list',{
+                    m:'product',
+                    f:'list',
+                    i:'all',
+                    t:'product'
+                })
+            })
             app.use(router)
             return this
         })
