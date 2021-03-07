@@ -10,6 +10,12 @@ class Module extends ModuleFactory
             name:{type:String},
             username:{type:String,unique:true},
             password:{type:String},
+            email:{type:String},
+            address:{type:String},
+            city:{type:String},
+            zip:{type:String},
+            mobile:{type:String},
+            phone:{type:String},
             images:[{
                 originalname:{type:String},
                 destination:{type:String},
@@ -22,9 +28,9 @@ class Module extends ModuleFactory
             setter:true,
             remover:true,
             user:true,
-            administrator:true
+           // administrator:true
         }
-        const moduleName='dummy'
+        const moduleName='user'
         super(dependencies,toolbox,structure,behaviours,moduleName)
     }
     hook=app=>

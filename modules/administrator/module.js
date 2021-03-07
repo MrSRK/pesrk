@@ -21,10 +21,10 @@ class Module extends ModuleFactory
             getter:true,
             setter:true,
             remover:true,
-            user:true,
+           // user:true,
             administrator:true
         }
-        const moduleName='dummy'
+        const moduleName='administrastor'
         super(dependencies,toolbox,structure,behaviours,moduleName)
     }
     hook=app=>

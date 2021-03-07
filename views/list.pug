@@ -1,11 +1,14 @@
 extends layout
 block content
-    .mt-2(data-ng-init="prepear('wlist','"+m+"')")
-        .row(data-ng-init='model.get()')
-            .col-6.col-md-4-.col-lg-2(data-ng-repeat="row in model.data")
-                .card
-                    img.card-img-top(src='...' alt='Card image cap')
-                    .card-body
-                        h5.card-title(data-ng-bind='row.title')
-                        .text-right
-                            a.btn.btn-primary(data-ng-href=m+'/{{row._id}}') Περισσότερα
+        .row.mt-2
+            .col-2
+                | Categories
+            .col-10(data-ng-init="prepear('wlist','"+m+"')")
+                .row(data-ng-init="handlers['"+m+"'].get()")
+                    .col-6.col-md-4-.col-lg-3.mb-4(data-ng-repeat="row in handlers['"+m+"'].data")
+                        .card
+                            img.card-img-top(src='...' alt='Card image cap')
+                            .card-body
+                                h5.card-title(data-ng-bind='row.title')
+                                .text-right
+                                    a.btn.btn-primary(data-ng-href=m+'/{{row._id}}') Περισσότερα

@@ -8,8 +8,8 @@ class Module extends ModuleFactory
         const structure={
             active:{type:Boolean,default:true},
             name:{type:String},
-            username:{type:String,unique:true},
-            password:{type:String},
+            title:{type:String},
+            description:{type:String},
             images:[{
                 originalname:{type:String},
                 destination:{type:String},
@@ -21,10 +21,10 @@ class Module extends ModuleFactory
             getter:true,
             setter:true,
             remover:true,
-            user:true,
-            administrator:true
+            //user:true,
+           // administrator:true
         }
-        const moduleName='dummy'
+        const moduleName='product'
         super(dependencies,toolbox,structure,behaviours,moduleName)
     }
     hook=app=>

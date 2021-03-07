@@ -7,24 +7,17 @@ class Module extends ModuleFactory
     {
         const structure={
             active:{type:Boolean,default:true},
-            name:{type:String},
-            username:{type:String,unique:true},
-            password:{type:String},
-            images:[{
-                originalname:{type:String},
-                destination:{type:String},
-                filename:{type:String},
-                path:{type:String}
-            }]
+            desciption:{type:String},
+            rate:{type:String}
         }
         const behaviours={
             getter:true,
             setter:true,
             remover:true,
-            user:true,
-            administrator:true
+            //user:true,
+           // administrator:true
         }
-        const moduleName='dummy'
+        const moduleName='review'
         super(dependencies,toolbox,structure,behaviours,moduleName)
     }
     hook=app=>

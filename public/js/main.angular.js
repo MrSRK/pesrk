@@ -2,9 +2,10 @@
 const app=angular.module("app",['http-worker'])
 app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
 {
-    $scope.prepear=(object,bond,_id)=>
+    $scope.handlers={}
+    $scope.prepear=(handler,bond,_id)=>
     {
-        switch(object)
+        switch(handler)
         {
             case 'wlist':
                 return new Wlist(bond)
@@ -23,9 +24,8 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
         data=[]
         constructor(bond)
         {
-            console.log('ade gamisou')
             this.bond=bond
-            $scope.model=this
+            $scope.handlers[bond]=this
         }
         get=(where,select)=>
         {
@@ -48,7 +48,7 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
         {
             this.bond=bond
             this._id=_id
-            $scope.model=this
+            $scope.handlers[bond]=this
         }
         get=(select)=>
         {
