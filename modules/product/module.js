@@ -17,10 +17,8 @@ class Module extends ModuleFactory
                 autopopulate:{select:'_id name'}
             },
             images:[{
-                originalname:{type:String},
-                destination:{type:String},
                 filename:{type:String},
-                path:{type:String}
+                location:{type:String}
             }]
         }
         const behaviours={

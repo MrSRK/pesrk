@@ -399,7 +399,8 @@ const controller_image_handler=(state,req,res)=>
         originalname:req.file.originalname,
         destination:req.file.destination,
         filename:req.file.filename,
-        path:req.file.path
+        path:req.file.path,
+        location:req.file.location
     }
     return state.model
     .findById(_id)
@@ -414,7 +415,7 @@ const controller_image_handler=(state,req,res)=>
         {
             return state.sharp(img.path)
             .flatten(true)
-            .resize(200,300)
+            .resize(200,200,{fit:'contain',background:{r:255,g:255,b:255,alpha:0 }})
             .toFile(state.path.join(img.destination,'thumbnail.webp'),(error,info)=>
             {
                 if(error)

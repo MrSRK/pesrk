@@ -12,6 +12,7 @@ const Storage=class
 					const uniqueSuffix=Date.now()+'-'+Math.round(Math.random()*1E9)
 					const d=(new Date()).toLocaleDateString().split('/')
 					const p=dependencies.path.join(__dirname,'../../',process.env.MULTER_UPLOAD||'public/upload',d[2],d[1],d[0],uniqueSuffix)
+					file.location=`${d[2]}/${d[1]}/${d[0]}/${uniqueSuffix}`
 					dependencies.fs.mkdirSync(p,{recursive:true})
 					next(null,p)
 				},

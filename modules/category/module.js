@@ -11,10 +11,8 @@ class Module extends ModuleFactory
             title:{type:String},
             description:{type:String},
             images:[{
-                originalname:{type:String},
-                destination:{type:String},
                 filename:{type:String},
-                path:{type:String}
+                location:{type:String}
             }]
         }
         const behaviours={
