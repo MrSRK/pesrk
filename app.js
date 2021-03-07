@@ -3,6 +3,7 @@ const fs=require('fs')
 const path=require('path')
 const dotenv=require('dotenv')
 const mongoose=require('mongoose')
+const autopopulate=require('mongoose-autopopulate')
 const jsonschema=require('mongoose-schema-jsonschema')
 const express=require('express')
 const bcrypt=require('bcrypt')
@@ -66,6 +67,7 @@ app.use('/js',express.static(path.join(__dirname,'/node_modules/angular'),{maxAg
 
 new ModuleLoader(app,{
     mongoose:mongoose,
+    autopopulate:autopopulate,
     bcrypt:bcrypt,
     jwt:jwt,
     express:express,

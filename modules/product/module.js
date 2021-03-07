@@ -10,6 +10,12 @@ class Module extends ModuleFactory
             name:{type:String},
             title:{type:String},
             description:{type:String},
+            user:{
+                type:dependencies.mongoose.Schema.Types.ObjectId,
+                ref:'user',
+                select:'name',
+                autopopulate:{select:'_id name'}
+            },
             images:[{
                 originalname:{type:String},
                 destination:{type:String},

@@ -10,7 +10,8 @@ const modelFactory=(dependencies,structure,behaviours,moduleName)=>
         return new ModelFactory(
             {
                 mongoose:dependencies.mongoose,
-                bcrypt:dependencies.bcrypt
+                bcrypt:dependencies.bcrypt,
+                autopopulate:dependencies.autopopulate
             },
             structure,
             behaviours,
@@ -63,6 +64,7 @@ const moduleFactory=class
                 bcrypt:dependencies.bcrypt,
                 jwt:dependencies.jwt,
                 mongoose:dependencies.mongoose,
+                autopopulate:dependencies.autopopulate,
                 express:dependencies.express
             }
             this.modelFactory=modelFactory(dependencies,structure,behaviours,moduleName),

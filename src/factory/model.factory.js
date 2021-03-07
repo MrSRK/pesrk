@@ -182,56 +182,65 @@ const remover=state=>
 }
 const createMongoosemodel=(dependencies,structure,moduleName)=>
 {
-	const mongoose=dependencies.mongoose
-	const bcrypt=dependencies.bcrypt
-	const bcrypt_salt=process.env.BCRYPT_SALT||10
-	const schema=new mongoose.Schema(structure,
+	try
 	{
-		timestamps:true,
-		versionKey:false
-	})
-	schema.pre('save',function(next)
-	{
-		var user=this;
-		if(!user.isModified('password')) 
-			return next()
-		return dependencies.bcrypt
-		.genSalt(parseInt(bcrypt_salt))
-		.then(salt=>
+		const mongoose=dependencies.mongoose
+		const autopopulate=dependencies.autopopulate
+		const bcrypt=dependencies.bcrypt
+		const bcrypt_salt=process.env.BCRYPT_SALT||10
+		const schema=new mongoose.Schema(structure,
 		{
-			return bcrypt
-			.hash(user.password,salt)
-			.then(hash=>
-			{
-				user.password=hash
+			timestamps:true,
+			versionKey:false
+		})
+		schema.plugin(autopopulate)
+		schema.pre('save',function(next)
+		{
+			var user=this;
+			if(!user.isModified('password')) 
 				return next()
+			return dependencies.bcrypt
+			.genSalt(parseInt(bcrypt_salt))
+			.then(salt=>
+			{
+				return bcrypt
+				.hash(user.password,salt)
+				.then(hash=>
+				{
+					user.password=hash
+					return next()
+				})
+				.catch(error=>
+				{
+					return next(error)
+				})
 			})
 			.catch(error=>
 			{
 				return next(error)
 			})
 		})
-		.catch(error=>
+		schema.pre('findOneAndUpdate',async function()
 		{
-			return next(error)
-		})
-	})
-	schema.pre('findOneAndUpdate',async function()
-	{
-		if(this._update.password)
-		{
-			const bcrypt=dependencies.bcrypt
-			const docToUpdate=await this.model.findOne(this.getQuery())
-			if(docToUpdate.password!==this._update.password)
+			if(this._update.password)
 			{
-				const bcrypt_salt=process.env.BCRYPT_SALT||10
-				const salt =await bcrypt.genSalt(parseInt(bcrypt_salt))
-				const newPassword= await bcrypt.hash(this._update.password,salt)
-				this._update.password=newPassword
+				const bcrypt=dependencies.bcrypt
+				const docToUpdate=await this.model.findOne(this.getQuery())
+				if(docToUpdate.password!==this._update.password)
+				{
+					const bcrypt_salt=process.env.BCRYPT_SALT||10
+					const salt =await bcrypt.genSalt(parseInt(bcrypt_salt))
+					const newPassword= await bcrypt.hash(this._update.password,salt)
+					this._update.password=newPassword
+				}
 			}
-		}
-	})
-	return mongoose.model(moduleName,schema)
+		})
+		return mongoose.model(moduleName,schema)
+	}
+	catch(error)
+	{
+		console.log(error)
+	}
 }
 /**
  * Model Factory Constructor
@@ -247,7 +256,8 @@ const modelFactory=class
 	{
 		const state={
 			model:createMongoosemodel(dependencies,structure,moduleName),
-			mongoose:dependencies.mongoose
+			mongoose:dependencies.mongoose,
+			autopopulate:dependencies.autopopulate
 		}
 		if(behaviours.getter)
 			Object.assign(this,getter(state))
