@@ -1,6 +1,15 @@
 "use strict"
 const app=angular.module("app",['http-worker'])
-app.filter("unique",function()
+app.directive('jsonData', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element,attributes,controller)
+        {
+            scope[attributes.ngModel]=JSON.parse(element.html())
+        }
+    }
+}])
+app.filter("uniqueCategory",function()
 {
     return function(collection,keyname)
     {
@@ -8,14 +17,13 @@ app.filter("unique",function()
         let keys=[]
         angular.forEach(collection,function(item)
         {
-            console.log(keys.indexOf(key))
-            if(keys.indexOf(key)===-1)
-            {
-                keys.push(key)
-                output.push(item)
-            }
+            if(item.category)
+                if(keys.indexOf(item.category._id)===-1)
+                {
+                    keys.push(item.category._id)
+                    output.push(item)
+                }
         })
-        console.log(output)
         return output
     }
 })
@@ -23,9 +31,11 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
 {
     $scope.links=
     {
-        setInclude:(m,f,i,t,s)=>
+        setInclude:()=>
         {
-            return `/template/${t}.${f}.html?m=${m}&f=${f}&i=${i}&t=${t}&s=${s}`
+            let t=$scope.init.config.template
+            let f=$scope.init.config.function
+            return `/template/${t}.${f}.html`
         }
     }
     $scope.handlers={}
@@ -70,10 +80,8 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
         setAsside=(field,filter)=>
         {
             let t={}
-            //console.log(this.data)
             for(row in this.data)
                 t[row[field]._id]=row[field]
-           // console.log(t)
             for(row in t)
                 this.asside.push(t[row])
         }
@@ -128,6 +136,7 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
     const Wform=class extends Wshow
     {
         data=[]
+        asside={}
         constructor(bond,_id)
         {
             super(bond,_id)
@@ -145,6 +154,27 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
             {
                 console.log(error)
             })
+        }
+        getAsside=name=>
+        {
+            if(this.asside[name])
+                return this.asside
+            else
+            {
+                this.asside[name]=[]
+                 $whttp.post(`/api/${name}/`,{where:{active:true},select:''})
+                .then(data=>
+                {
+                    console.log(data)
+                    this.asside[name]=data.doc
+                    $scope.$apply()
+                })
+                .catch(error=>
+                {
+                    console.log(error)
+                })
+                return this.asside[name]
+            }
         }
     }
 }])

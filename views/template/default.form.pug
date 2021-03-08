@@ -1,17 +1,43 @@
-.mt-4(data-ng-init="prepear('wform','"+m+"','"+i+"')")
-    .row.justify-content-start(data-ng-init="handlers['"+m+"'].get()")
-        p -------------------------
-        p=m
-        p=f 
-        p=i
-        p=s
-        p -------------------------
-        .col-6.col-md-4.col-lg-2.mb-4(data-ng-repeat="row in handlers['"+m+"'].data")
-            .card
-                img.card-img-top(data-ng-src='/static/{{row.images[0].location}}/thumbnail.webp' alt='{{row.name}}')
-                .card-body
-                    h5.mb-0.card-title.small(data-ng-bind='row.title')
-                    h6.mb-3.small 
-                        small.text-muted(data-ng-bind="row.user.name")
-                    .text-right
-                        a.btn.btn-primary(data-ng-href=m+'/{{row._id}}') Περισσότερα
+.mt-4(data-ng-init="prepear('wform',init.config.model,init.config.id)")
+	form.container.px-lg-5
+		.row.justify-content-start
+			h2.px-lg-5 Form
+		.row.justify-content-start(data-ng-init="handlers[init.config.model].get()")
+			.col-12.px-lg-5.mb-2(data-ng-repeat="(name,field) in init.config.schema.properties")
+
+				.form-group(data-ng-if="field.description=='email'")
+					label.text-capitalize(for='form-{{name}}') {{name}}
+					input.form-control(id="form-{{name}}",type='email' placeholder='Enter {{name}}',data-ng-model="handlers[init.config.model].data[name]")
+
+				.form-group(data-ng-if="field.description=='password'")
+					label.text-capitalize(for='form-{{name}}') {{name}}
+					input.form-control(id="form-{{name}}",type='password' placeholder='Enter {{name}}',data-ng-model="handlers[init.config.model].data[name]")
+
+				.form-group(data-ng-if="field.description=='textField'")
+					label.text-capitalize(for='form-{{name}}') {{name}}
+					input.form-control(id="form-{{name}}",type='text' placeholder='Enter {{name}}',data-ng-model="handlers[init.config.model].data[name]")
+
+				.form-group(data-ng-if="field.description=='textArea'")
+					label.text-capitalize(for='form-{{name}}') {{name}}
+					textArea.form-control(id="form-{{name}}",type='text' placeholder='Enter {{name}}',data-ng-model="handlers[init.config.model].data[name]")
+
+				.form-check(data-ng-if="field.description=='checkbox'")
+					input.form-check-input(id="form-{{name}}",type='checkbox',data-ng-model="handlers[init.config.model].data[name]")
+					label.form-check-label.text-capitalize(for='form-{{name}}') {{name}}
+
+				.form-group(data-ng-if="field['x-ref']")
+					label.text-capitalize(for='form-{{name}}') {{name}}
+					select.form-control(id="form-{{name}}",data-ng-model="handlers[init.config.model].data[name]",data-ng-init="handlers[init.config.model].getAsside(field['x-ref'])",data-ng-options="item._id as item.name for item in handlers[init.config.model].asside[field['x-ref']] track by item._id")
+				
+				.form-group(data-ng-if="name=='images'")
+					.row 
+						.col-2
+							input.d-none(type="file",id="form-image",accept=".jpg,.png")
+							button.btn.btn-lg.btn-primary(onclick="$('#form-image').click()") + New
+						.col-2(data-ng-repeat="image in handlers[init.config.model].data[name]")
+							img.w-100(data-ng-src="/static/{{image.location}}/thumbnail.webp")
+							button.btn.btn-sm.btn-link.text-danger delete 
+
+
+			
+		

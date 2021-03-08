@@ -1,22 +1,17 @@
-.mt-4(data-ng-init="prepear('wlist','"+m+"')") 
-	.row(data-ng-init="handlers['"+m+"'].get()")
+.mt-4(data-ng-init="prepear('wlist',init.config.model)") 
+	.row(data-ng-init="handlers[init.config.model].get()")
 		.col-3.col-lg-2
 			.list-group.mt-5
-				a.list-group-item.list-group-item-action(data-ng-repeat="row in handlers['"+m+"'].data | unique:'category._id' | orderBy:'category.name'",data-ng-bind="row.category.name",data-ng-click="handlers['"+m+"'].filter=row.category._id")
-				
-
-
-
-			
+				button.list-group-item.list-group-item-action(data-ng-repeat="row in handlers[init.config.model].data|uniqueCategory:'category._id'",data-ng-bind="row.name",data-ng-click="handlers[init.config.model].categoryFilter=row.category._id")
 		.col-9.col-lg-10
 			.row
-				div(class=i=='offer'?'col-12':i=='demand'?'d-none':'col-6') 
+				div(data-ng-class="{'demand':'d-none','offer':'col-12','all':'col-6'}[init.config.id]")
 					.row.justify-content-start
 						.col-12.text-center
 							h2.strong Προσφορά
 							hr.mx-5
-							p(data-ng-bind="handlers['"+m+"'].filter")
-						.col-12.mb-4.px-5(data-ng-repeat="row in handlers['"+m+"'].data|filter:handlers['"+m+"'].filter",data-ng-if="row.offer")
+							p(data-ng-bind="handlers[init.config.model].filter")
+						.col-12.mb-4.px-5(data-ng-repeat="row in handlers[init.config.model].data|filter:handlers[init.config.model].categoryFilter",data-ng-if="row.offer")
 							.row 
 								.col-2 
 									img.w-100(data-ng-src='/static/{{row.images[0].location}}/thumbnail.webp' alt='{{row.name}}')
@@ -26,12 +21,12 @@
 									h6.mb-3.small.text-muted(data-ng-bind="row.user.name")
 								.col-12.p-0.text-right
 									a.btn.btn-sm.btn-primary(data-ng-href=m+'/{{row._id}}') Περισσότερα
-				div(class=i=='demand'?'col-12':i=='offer'?'d-none':'col-6') 
-					.row.justify-content-start
+				div(data-ng-class="{'offer':'d-none','demand':'col-12','all':'col-6'}[init.config.id]")
+					.row.justify-content-start 
 						.col-12.text-center
 							h2.strong Ζήτηση
 							hr.mx-5
-						.col-12.px-5.mb-4(data-ng-repeat="row in handlers['"+m+"'].data",data-ng-if="!row.offer")
+						.col-12.px-5.mb-4(data-ng-repeat="row in handlers[init.config.model].data|filter:handlers[init.config.model].categoryFilter",data-ng-if="!row.offer")
 							.row 
 								.col-2 
 									img.w-100(data-ng-src='/static/{{row.images[0].location}}/thumbnail.webp' alt='{{row.name}}')

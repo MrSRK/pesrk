@@ -6,11 +6,11 @@ class Module extends ModuleFactory
     constructor(dependencies,toolbox)
     {
         const structure={
-            active:{type:Boolean,default:true},
-            offer:{type:Boolean,default:true},
-            name:{type:String},
-            title:{type:String},
-            description:{type:String},
+            active:{type:Boolean,default:true,description:'checkbox'},
+            offer:{type:Boolean,default:true,description:'checkbox'},
+            name:{type:String,description:'textField'},
+            title:{type:String,description:'textField'},
+            description:{type:String,description:'textArea'},
             user:{
                 type:dependencies.mongoose.Schema.Types.ObjectId,
                 ref:'user',

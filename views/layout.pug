@@ -19,17 +19,8 @@ html(lang="el",data-ng-app="app",data-ng-controller="page-handler")
 
 		include partials/footer
 
-		script#config(type='application/json').
-			{
-				config:{
-					m=!{m}
-					f=!{f}
-					i=!{i}
-					t=!{t}
-					s=!{s}
-				}
-			}
-
+		script#config(type='application/json', json-data ng-model="init").
+			{"config":{"model":"!{m}","function":"!{f}","id":"!{i}","template":"!{t}","schema":!{s||'null'}}}
 
 		script(src='/js/jquery.min.js')
 		script(src='/js/popper.min.js')
