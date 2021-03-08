@@ -38,7 +38,7 @@ const controllerFactory=(dependencies,toolbox,behaviours)=>
 }
 const routerFactory=(dependencies,toolbox,behaviours,moduleName)=>
 {
-    return controller=>
+    return (controller,model)=>
     {
         return new RouterFactory(
             {
@@ -48,7 +48,8 @@ const routerFactory=(dependencies,toolbox,behaviours,moduleName)=>
             toolbox,
             behaviours,
             moduleName,
-            controller
+            controller,
+            model
         )
     }
 }
@@ -112,7 +113,7 @@ const moduleFactory=class
         {
             if(this.error)
                 throw this.error
-            this.router=this.routerFactory(this.controller)
+            this.router=this.routerFactory(this.controller,this.model)
             next(this.router)
         }
         catch(error)

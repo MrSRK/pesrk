@@ -180,6 +180,12 @@ const remover=state=>
 		findByIdAndRemove:model_findByIdAndRemove.bind(null,state)
 	}
 }
+const schemaProvider=state=>
+{
+	return {
+		jsonSchema:state.model.jsonSchema()
+	}
+}
 const createMongoosemodel=(dependencies,structure,moduleName)=>
 {
 	try
@@ -254,11 +260,13 @@ const modelFactory=class
 {
 	constructor(dependencies,structure,behaviours,moduleName)
 	{
+		const model=createMongoosemodel(dependencies,structure,moduleName)
 		const state={
-			model:createMongoosemodel(dependencies,structure,moduleName),
+			model:model,
 			mongoose:dependencies.mongoose,
 			autopopulate:dependencies.autopopulate
 		}
+		Object.assign(this,schemaProvider(state))
 		if(behaviours.getter)
 			Object.assign(this,getter(state))
 		if(behaviours.setter)

@@ -3,6 +3,7 @@ const getter=state=>
 {
     const moduleName=state.moduleName
     const controller=state.controller
+    const model=state.model
     return {
         hook:router=>
         {
@@ -40,12 +41,11 @@ const getter=state=>
             router.get(`/admin/${moduleName}/:_id`,(req,res)=>
             {
                 return res.render('form',{
-                    
                     m:moduleName,
                     f:'form',
                     i:req.params._id,
-                    t:'default'
-
+                    t:'default',
+                    s:JSON.stringify(model.jsonSchema)
                 })
             })
         }
@@ -123,11 +123,12 @@ const user=state=>
 }
 const routerFactory=class
 {
-    constructor(dependencies,toolbox,behaviours,moduleName,controller)
+    constructor(dependencies,toolbox,behaviours,moduleName,controller,model)
     {
         this.router=dependencies.express.Router()
         const state=
         {
+            model:model,
             controller:controller,
             moduleName:moduleName,
             toolbox:toolbox

@@ -1,6 +1,5 @@
 "use strict"
 const app=angular.module("app",['http-worker'])
-
 app.filter("unique",function()
 {
     return function(collection,keyname)
@@ -24,9 +23,9 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
 {
     $scope.links=
     {
-        setInclude:(m,f,i,t)=>
+        setInclude:(m,f,i,t,s)=>
         {
-            return `/template/${t}.${f}.html?m=${m}&f=${f}&i=${i}&t=${t}`
+            return `/template/${t}.${f}.html?m=${m}&f=${f}&i=${i}&t=${t}&s=${s}`
         }
     }
     $scope.handlers={}
@@ -41,7 +40,7 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
             case 'wshow':
                 return new Wshow(bond,_id)
             case 'wform':
-                    return Wform(bond,_id)
+                return new Wform(bond,_id)
             default:
                 console.log('Unprepared prepear...')
         }
@@ -71,10 +70,10 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
         setAsside=(field,filter)=>
         {
             let t={}
-            console.log(this.data)
+            //console.log(this.data)
             for(row in this.data)
                 t[row[field]._id]=row[field]
-            console.log(t)
+           // console.log(t)
             for(row in t)
                 this.asside.push(t[row])
         }
