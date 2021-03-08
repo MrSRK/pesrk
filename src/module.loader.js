@@ -54,7 +54,6 @@ const ModelLoader=class
 			}
 			app.get('/template/:template.:mod.html',(req,res)=>
 			{
-				console.log(`template/${req.params.template}.${req.params.mod}.pug`)
 				return res.render(`template/${req.params.template}.${req.params.mod}.pug`,{
 					m:req.query.m||null,
 					f:req.query.f||null,

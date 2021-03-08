@@ -1,5 +1,25 @@
 "use strict"
 const app=angular.module("app",['http-worker'])
+
+app.filter("unique",function()
+{
+    return function(collection,keyname)
+    {
+        let output=[]
+        let keys=[]
+        angular.forEach(collection,function(item)
+        {
+            console.log(keys.indexOf(key))
+            if(keys.indexOf(key)===-1)
+            {
+                keys.push(key)
+                output.push(item)
+            }
+        })
+        console.log(output)
+        return output
+    }
+})
 app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
 {
     $scope.links=
@@ -29,6 +49,7 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
     const Wlist=class
     {
         data=[]
+        asside=[]
         constructor(bond)
         {
             this.bond=bond
@@ -46,6 +67,16 @@ app.controller("page-handler",['$scope','$http','$whttp',($scope,$http,$whttp)=>
             {
                 console.log(error)
             })
+        }
+        setAsside=(field,filter)=>
+        {
+            let t={}
+            console.log(this.data)
+            for(row in this.data)
+                t[row[field]._id]=row[field]
+            console.log(t)
+            for(row in t)
+                this.asside.push(t[row])
         }
     }
     const Wshow=class

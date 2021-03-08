@@ -14,7 +14,11 @@ class Module extends ModuleFactory
             user:{
                 type:dependencies.mongoose.Schema.Types.ObjectId,
                 ref:'user',
-                select:'name',
+                autopopulate:{select:'_id name'}
+            },
+            category:{
+                type:dependencies.mongoose.Schema.Types.ObjectId,
+                ref:'category',
                 autopopulate:{select:'_id name'}
             },
             images:[{
