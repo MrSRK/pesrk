@@ -4,6 +4,7 @@ const chaiHttp=require('chai-http')
 
 
 const mongoose=require('mongoose')
+const autopopulate=require('mongoose-autopopulate')
 const express=require('express')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
@@ -31,6 +32,7 @@ describe('Module Factory Unit Test',_=>
 
     let module=new ModuleFactory({
         mongoose:mongoose,
+        autopopulate:autopopulate,
         bcrypt:bcrypt,
         jwt:jwt,
         express:express

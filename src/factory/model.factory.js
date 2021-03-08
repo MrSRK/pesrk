@@ -266,6 +266,7 @@ const modelFactory=class
 			mongoose:dependencies.mongoose,
 			autopopulate:dependencies.autopopulate
 		}
+		console.log(dependencies.autopopulate)
 		Object.assign(this,schemaProvider(state))
 		if(behaviours.getter)
 			Object.assign(this,getter(state))

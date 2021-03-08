@@ -2,6 +2,7 @@
 const chai=require('chai')
 const chaiHttp=require('chai-http')
 const mongoose=require('mongoose')
+const autopopulate=require('mongoose-autopopulate')
 const express=require('express')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
@@ -59,6 +60,7 @@ describe('Router Factory Unit Test',_=>
     {
         model=new ModelFactory({
             mongoose:mongoose,
+            autopopulate:autopopulate,
             bcrypt:bcrypt,
         },
         {

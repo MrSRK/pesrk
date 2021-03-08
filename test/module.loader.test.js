@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const autopopulate=require('mongoose-autopopulate')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 const express=require('express')
@@ -19,6 +20,7 @@ describe('Module Loader Unit Test',_=>
 
         const moduleLoader=new ModuleLoader(app,{
             mongoose:mongoose,
+            autopopulate:autopopulate,
             bcrypt:bcrypt,
             jwt:jwt,
             express:express,

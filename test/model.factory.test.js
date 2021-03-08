@@ -1,6 +1,7 @@
 "use strict"
 const chai=require('chai')
 const mongoose=require('mongoose')
+const autopopulate=require('mongoose-autopopulate')
 const bcrypt=require('bcrypt')
 const dotenv=require('dotenv')
 const ModelFactory=require('../src/factory/model.factory')
@@ -38,6 +39,7 @@ describe('Model Factory Unit Test',_=>
     {
         model=new ModelFactory({
             mongoose:mongoose,
+            autopopulate:autopopulate,
             bcrypt:bcrypt,
         },
         {
